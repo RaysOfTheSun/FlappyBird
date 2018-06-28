@@ -34,18 +34,19 @@ class Game:
         play_game = True
         while play_game:
             # Set the frame rate to 60 frames per second (FPS)
+            # skipping this would make the thing unplayable lol
             clock.tick(60)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     play_game = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
+                    if (event.key == pygame.K_SPACE) or (event.key == pygame.K_UP):
                         self.bird.jumped = True
 
-            # erase everything in the canvas before redrawing so stuff won't overlap
+            # erase everything in the canvas before redrawing so new stuff won't overlap with old stuff
             self.clean_canvas()
-            self.bird.draw(self.canvas)
+            self.bird.to_canvas(self.canvas)
 
             # Update the canvas
             pygame.display.flip()
