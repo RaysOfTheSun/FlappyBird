@@ -29,7 +29,7 @@ class Bird:
 
         self.__pull = -18  # application will result into negative velocity
         self.__gravity = 1  # the force the pulls the bird downward
-        self.__velocity = 0
+        self.__velocity = 0  # dictates the speed and direction of the bird
 
     @property
     def y_coordinate(self):
@@ -51,14 +51,7 @@ class Bird:
 
         self.__update_position()
         self.sprite = Bird_Sprite("Images/bird.png", [self.x_coordinate, self.y_coordinate])
-
-        # Get dimensions of the sprite
-        # These will be used in drawing the underlying ellipse that we would use to interact with the game world
-        sprite_width, sprite_height = self.sprite.image.get_rect().size
-
-        # Draw the ellipse and then draw the image over it
-        pygame.draw.ellipse(canvas, self.__colorPalette.white, [self.x_coordinate, self.y_coordinate, sprite_width,
-                                                                sprite_height], 20)
+        # Draw the image that represents the bird
         canvas.blit(self.sprite.image, self.sprite.rect)
 
     def __fall(self):
