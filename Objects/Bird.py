@@ -9,72 +9,77 @@ class Bird:
         :param y_coord: The position of the bird on the x-axis
         :param x_coord: The position of the bird on the y-axis
         """
-        self.x_coordinate = x_coord
-        self.y_coordinate = y_coord
+        self.__x_coordinate = x_coord
+        self.__y_coordinate = y_coord
 
         # We need the height and width of the canvas for error handling purposes
-        self.canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
+        self.__canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
 
-        self.width = 20
+        self.__bird_width = 20
 
         # These limits will ensure that the entirety of the bird is always visible
-        self.upper_limit = self.width
-        self.lower_limit = self.canvas_height - self.width
+        self.__upper_limit = self.__bird_width
+        self.__lower_limit = self.canvas_height - self.__bird_width
 
-        self.colorPalette = ColorPalette()
+        self.__colorPalette = ColorPalette()
 
-        self.jumped = False
+        self.__jumped = False
 
-        self.pull = -18  # application will result into negative velocity
-        self.gravity = 1  # the force the pulls the bird downward
-        self.velocity = 0
+        self.__pull = -18  # application will result into negative velocity
+        self.__gravity = 1  # the force the pulls the bird downward
+        self.__velocity = 0
 
     def to_canvas(self, canvas: pygame.Surface):
         """
         Draws the bird onto the specified canvas or surface
         :param canvas: The surface wherein the bird is to be drawn on
-        :return:
         """
-        if self.jumped:
-            self.fly()
+        if self.__jumped:
+            self.__fly()
         else:
-            self.fall()
+            self.__fall()
 
-        self.update_position()
-        pygame.draw.circle(canvas, self.colorPalette.white, (self.x_coordinate, self.y_coordinate),
-                           self.width, self.width)
+        self.__update_position()
+        pygame.draw.circle(canvas, self.__colorPalette.white, (self.__x_coordinate, self.__y_coordinate),
+                           self.__bird_width, self.__bird_width)
 
-    def fall(self):
+    def __fall(self):
         """
         Pushes the bird downward
-        :return:
         """
-        if self.y_coordinate < self.lower_limit:
-            self.velocity += self.gravity
+        if self.__y_coordinate < self.__lower_limit:
+            self.__velocity += self.__gravity
 
-    def fly(self):
+    def __fly(self):
         """
         Pushes the bird upward
         :return:
         """
-        if self.y_coordinate > self.upper_limit:
-            self.velocity += self.pull
+        if self.__y_coordinate > self.__upper_limit:
+            self.__velocity += self.__pull
 
-        self.jumped = False
+        self.__jumped = False
 
-    def update_position(self):
+    def __update_position(self):
         """
         Updates the position of the bird and also restricts it to within the visible area of the canvas
         :return:
         """
         # applies a push or pull force to the bird
-        self.y_coordinate += self.velocity
+        self.__y_coordinate += self.__velocity
 
         # enforce the limits so the bird will always be visible.
         # velocity is set to zero so the bird won't get 'stuck' when it hits the boundaries of the canvas.
-        if self.y_coordinate < 1:
-            self.y_coordinate = self.upper_limit
-            self.velocity = 0
-        elif self.y_coordinate > self.canvas_height:
-            self.y_coordinate = self.lower_limit
-            self.velocity = 0
+        if self.__y_coordinate < 1:
+            self.__y_coordinate = self.__upper_limit
+            self.__velocity = 0
+        elif self.__y_coordinate > self.canvas_height:
+            self.__y_coordinate = self.__lower_limit
+            self.__velocity = 0
+
+    def jump(self):
+        """
+        Activate the bird object's flight mechanism
+        :return:
+        """
+        self.__jumped = True

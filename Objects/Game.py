@@ -23,14 +23,12 @@ class Game:
     def clean_canvas(self):
         """
         Removes everything that is drawn on the canvas or surface
-        :return:
         """
         self.canvas.fill(self.colorPalette.black)
 
     def play(self):
         """
         Runs the game code
-        :return:
         """
         clock = pygame.time.Clock()
         play_game = True
@@ -39,6 +37,7 @@ class Game:
             # Set the frame rate to 60 frames per second (FPS)
             # skipping this would make the thing unplayable lol
             clock.tick(60)
+
             self.frame_number += 1
 
             for event in pygame.event.get():
@@ -46,7 +45,7 @@ class Game:
                     play_game = False
                 if event.type == pygame.KEYDOWN:
                     if (event.key == pygame.K_SPACE) or (event.key == pygame.K_UP):
-                        self.bird.jumped = True
+                        self.bird.jump()
 
             self.make_pipes()
             for pipe_set in self.pipes:
