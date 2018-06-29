@@ -7,7 +7,7 @@ from Objects.ColorPalette import ColorPalette
 class Game:
     def __init__(self):
         """
-        Initializes a new instance of the Game class
+        Initializes a new instance of the Game classj
         """
         self.colorPalette = ColorPalette()
         self.frame_number = 0
@@ -29,7 +29,7 @@ class Game:
 
     def play(self):
         """
-        Runs the game code
+        Run the game code
         """
         clock = pygame.time.Clock()
         play_game = True
@@ -72,6 +72,9 @@ class Game:
         pygame.quit()
 
     def make_pipes(self):
+        """
+        Creates a new PipeSet object that will serve as an obstacle in the game
+        """
         # Create a new pipe every 60th frame
         if self.frame_number % 60 == 0:
             self.pipes.append(PipeSet())
