@@ -49,9 +49,14 @@ class Game:
             self.clean_canvas()
 
             self.make_pipes()
-            for pipe in self.pipes:
-                pipe.to_canvas(self.canvas)
-                pipe.scroll()
+            for pipe_set in self.pipes:
+                pipe_set.to_canvas(self.canvas)
+                pipe_set.scroll()
+
+                # as these pipes are no longer visible anyway,
+                # remove the PipeSet (pipe) object from the array so it won't grow too much
+                if pipe_set.x_coordinate < 0:
+                    self.pipes.remove(pipe_set)
 
             self.bird.to_canvas(self.canvas)
 
@@ -62,5 +67,6 @@ class Game:
 
     def make_pipes(self):
         frame_count = pygame.time.get_ticks()
-        if frame_count % 50 == 0:
+        if frame_count % 60 == 0:
             self.pipes.append(PipeSet())
+
