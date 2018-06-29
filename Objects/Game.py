@@ -62,5 +62,5 @@ class Game:
 
     def make_pipes(self):
         frame_count = pygame.time.get_ticks()
-        if frame_count % 30 == 0:
+        if frame_count % 50 == 0:
             self.pipes.append(PipeSet())
