@@ -19,6 +19,7 @@ class Game:
 
         self.bird = Bird(self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
+        self.current_pipe = self.pipes[0]
 
     def clean_canvas(self):
         """
@@ -52,10 +53,14 @@ class Game:
                 pipe_set.to_canvas(self.canvas)
                 pipe_set.scroll()
 
-                # as these pipes are no longer visible anyway,
-                # remove the PipeSet (pipe) object from the array so it won't grow too much
-                if pipe_set.x_coordinate < 0:
-                    self.pipes.remove(pipe_set)
+            # as these pipes are no longer visible anyway,
+            # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
+            if self.current_pipe.x_coordinate < 0:
+                self.pipes.pop(0)
+                self.current_pipe = self.pipes[0]
+
+            if self.current_pipe.collide(self.bird):
+                play_game = False
 
             self.bird.to_canvas(self.canvas)
 

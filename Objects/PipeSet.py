@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 from Objects.ColorPalette import ColorPalette
 
 
@@ -49,3 +50,16 @@ class PipeSet:
         Gradually move the pipe off the screen
         """
         self.x_coordinate -= self.scroll_speed
+
+    def collide(self, bird):
+        """
+        Determines whether the bird had collided with either of the two pipes in the pipe set
+        :param bird: The bird object that the player controls \n
+        :return:True if the bird had collided with any of the pipes in the set
+        """
+        if (((bird.y_coordinate < self.top_pipe_height) or (bird.y_coordinate > self.bottom_pipe_height)) and
+                ((bird.x_coordinate > self.x_coordinate) and (bird.x_coordinate
+                                                              < self.x_coordinate + self.pipe_width))):
+                return True
+        else:
+            return False

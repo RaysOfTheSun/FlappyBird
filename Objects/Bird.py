@@ -29,6 +29,14 @@ class Bird:
         self.__gravity = 1  # the force the pulls the bird downward
         self.__velocity = 0
 
+    @property
+    def y_coordinate(self):
+        return self.__y_coordinate
+
+    @property
+    def x_coordinate(self):
+        return self.__x_coordinate
+
     def to_canvas(self, canvas: pygame.Surface):
         """
         Draws the bird onto the specified canvas or surface
@@ -69,7 +77,8 @@ class Bird:
         self.__y_coordinate += self.__velocity
 
         # enforce the limits so the bird will always be visible.
-        # velocity is set to zero so the bird won't get 'stuck' when it hits the boundaries of the canvas.
+        # velocity is set to zero so the bird won't get 'stuck' when it hits the upper and lower boundaries of
+        # the canvas.
         if self.__y_coordinate < 1:
             self.__y_coordinate = self.__upper_limit
             self.__velocity = 0
