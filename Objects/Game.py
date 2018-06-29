@@ -10,6 +10,7 @@ class Game:
         Initializes a new instance of the Game class
         """
         self.colorPalette = ColorPalette()
+        self.frame_number = 0
 
         pygame.init()
         self.screen_size = (800, 800)
@@ -34,9 +35,11 @@ class Game:
         clock = pygame.time.Clock()
         play_game = True
         while play_game:
+
             # Set the frame rate to 60 frames per second (FPS)
             # skipping this would make the thing unplayable lol
             clock.tick(60)
+            self.frame_number += 1
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -44,9 +47,6 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if (event.key == pygame.K_SPACE) or (event.key == pygame.K_UP):
                         self.bird.jumped = True
-
-            # erase everything in the canvas before redrawing so new stuff won't overlap with old stuff
-            self.clean_canvas()
 
             self.make_pipes()
             for pipe_set in self.pipes:
@@ -63,10 +63,14 @@ class Game:
             # Update the canvas
             pygame.display.flip()
 
+            # erase everything in the canvas before redrawing so new stuff won't overlap with old stuff
+            self.clean_canvas()
+
         pygame.quit()
 
     def make_pipes(self):
-        frame_count = pygame.time.get_ticks()
-        if frame_count % 60 == 0:
+        # Create a new pipe every 60th frame
+        if self.frame_number % 60 == 0:
             self.pipes.append(PipeSet())
+            self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
 
