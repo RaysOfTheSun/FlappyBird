@@ -21,7 +21,7 @@ class PipeSet:
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
-        self.scroll_speed = 2
+        self.scroll_speed = 3
 
         self.calculate_dimensions()
 
@@ -30,12 +30,14 @@ class PipeSet:
         Draws the bird onto the specified canvas or surface
         :param canvas: The surface wherein the bird is to be drawn on
         """
+        print(self.x_coordinate)
+
         # top pipe
         pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, 0),
                          (self.x_coordinate, self.top_pipe_height), self.pipe_width)
         # bottom pipe
         pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
-                         (self.x_coordinate, self.canvas_height), self.pipe_width)
+                         (self.x_coordinate, self.canvas_height*2), self.pipe_width)
 
     def calculate_dimensions(self):
         """

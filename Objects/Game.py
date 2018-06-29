@@ -2,20 +2,21 @@ import pygame
 from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
 from Objects.ColorPalette import ColorPalette
-
+from Sprites.Background import Background
 
 class Game:
     def __init__(self):
         """
-        Initializes a new instance of the Game classj
+        Initializes a new instance of the Game class
         """
         self.colorPalette = ColorPalette()
         self.frame_number = 0
 
         pygame.init()
-        self.screen_size = (800, 800)
+        self.screen_size = (600, 800)
         self.canvas = pygame.display.set_mode(self.screen_size, 0, 32)
         pygame.display.set_caption("Flappy Bird")
+        self.background = Background("Images/background.png", [0, 0])
 
         self.bird = Bird(self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
@@ -26,6 +27,8 @@ class Game:
         Removes everything that is drawn on the canvas or surface
         """
         self.canvas.fill(self.colorPalette.black)
+        # Draw the background over the canvas
+        self.canvas.blit(self.background.image, self.background.rect)
 
     def play(self):
         """
@@ -59,7 +62,8 @@ class Game:
                 self.current_pipe = self.pipes[0]
 
             if self.current_pipe.collide(self.bird):
-                play_game = False
+                print("Collision")
+                # play_game = False
 
             self.bird.to_canvas(self.canvas)
 

@@ -1,5 +1,6 @@
 import pygame
 from Objects.ColorPalette import ColorPalette
+from Sprites.Bird import Bird as Bird_Sprite
 
 
 class Bird:
@@ -15,12 +16,13 @@ class Bird:
         # We need the height and width of the canvas for error handling purposes
         self.__canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
 
-        self.__bird_width = 20
+        self.__bird_width = 50
 
         # These limits will ensure that the entirety of the bird is always visible
         self.__upper_limit = self.__bird_width
         self.__lower_limit = self.canvas_height - self.__bird_width
 
+        self.sprite = None
         self.__colorPalette = ColorPalette()
 
         self.__jumped = False
@@ -48,8 +50,16 @@ class Bird:
             self.__fall()
 
         self.__update_position()
-        pygame.draw.circle(canvas, self.__colorPalette.white, (self.__x_coordinate, self.__y_coordinate),
-                           self.__bird_width, self.__bird_width)
+        self.sprite = Bird_Sprite("Images/bird.png", [self.x_coordinate, self.y_coordinate])
+
+        # Get dimensions of the sprite
+        # These will be used in drawing the underlying ellipse that we would use to interact with the game world
+        sprite_width, sprite_height = self.sprite.image.get_rect().size
+
+        # Draw the ellipse and then draw the image over it
+        pygame.draw.ellipse(canvas, self.__colorPalette.white, [self.x_coordinate, self.y_coordinate, sprite_width,
+                                                                sprite_height], 20)
+        canvas.blit(self.sprite.image, self.sprite.rect)
 
     def __fall(self):
         """
