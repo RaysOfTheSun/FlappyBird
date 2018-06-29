@@ -44,9 +44,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     play_game = False
-                if event.type == pygame.KEYDOWN:
-                    if (event.key == pygame.K_SPACE) or (event.key == pygame.K_UP):
-                        self.bird.jump()
+                elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
+                    self.bird.jump()
 
             self.make_pipes()
             for pipe_set in self.pipes:
