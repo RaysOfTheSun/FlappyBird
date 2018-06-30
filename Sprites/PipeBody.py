@@ -1,8 +1,8 @@
 import pygame
 
 
-class Bird(pygame.sprite.Sprite):
-    def __init__(self, image_file, location):
+class PipeBody(pygame.sprite.Sprite):
+    def __init__(self, image_file, location, width, height):
         """
         Initializes a new instance of the bird class
         :param image_file: The path to the image that would serve as the background
@@ -10,7 +10,6 @@ class Bird(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
         self.image = pygame.image.load(image_file).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (50, 50)).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
-

@@ -14,7 +14,7 @@ class Game:
 
         # initialization of Pygame components
         pygame.init()
-        self.screen_size = (600, 800)
+        self.screen_size = (600, 600)
         self.canvas = pygame.display.set_mode(self.screen_size, 0, 32)
         pygame.display.set_caption("Flappy Bird")
 
@@ -30,7 +30,7 @@ class Game:
         self.canvas.fill(self.colorPalette.black)
 
         # Draw the background over the canvas
-        self.canvas.blit(self.background.image, self.background.rect)
+        # self.canvas.blit(self.background.image, self.background.rect)
 
     def play(self):
         """
@@ -59,7 +59,7 @@ class Game:
 
             # In case the current pipe goes off-screen (i.e. its position in the x-axis becomes negative)
             # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
-            if self.pipes[0].x_coordinate < 0:
+            if self.pipes[0].x_coordinate <= 60:  # Pipe width:
                 self.pipes.pop(0)
 
             if self.pipes[0].collide(self.bird):
@@ -73,6 +73,8 @@ class Game:
 
             # erase everything in the canvas before redrawing so new stuff won't overlap with old stuff
             self.clean_canvas()
+
+            print(f"FPS: {clock.get_fps()}")
 
         pygame.quit()
 

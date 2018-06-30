@@ -2,6 +2,8 @@ import pygame
 import random
 import math
 from Objects.ColorPalette import ColorPalette
+from Sprites.PipeBody import PipeBody
+from Sprites.PipeHead import PipeHead
 
 
 class PipeSet:
@@ -18,6 +20,10 @@ class PipeSet:
         self.x_coordinate = self.canvas_height
         self.passable_space_height = 30
         self.pipe_width = 60
+        self.top_pipe_head = None
+        self.top_pipe_body = None
+        self.bottom_pipe_head = None
+        self.bottom_pipe_body = None
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
@@ -31,11 +37,29 @@ class PipeSet:
         :param canvas: The surface wherein the bird is to be drawn on
         """
         # top pipe
-        pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, 0),
-                         (self.x_coordinate, self.top_pipe_height), self.pipe_width)
+        # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, 0),
+        #                 (self.x_coordinate, self.top_pipe_height), self.pipe_width)
         # bottom pipe
         pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
-                         (self.x_coordinate, self.canvas_height*2), self.pipe_width)
+                       (self.x_coordinate, self.canvas_height*2), self.pipe_width)
+
+        half_width = self.pipe_width // 2
+
+        # Draw the top pipe
+        self.top_pipe_body = PipeBody("Images/pipe_body.png", [self.x_coordinate - half_width, - half_width],
+                                      self.pipe_width, self.top_pipe_height)
+        self.top_pipe_head = PipeHead("Images/pipe_head.png", [self.x_coordinate - half_width, self.top_pipe_height -
+                                                               half_width], self.pipe_width, half_width)
+        canvas.blit(self.top_pipe_body.image, self.top_pipe_body.rect)
+        canvas.blit(self.top_pipe_head.image, self.top_pipe_head.rect)
+
+        # Draw the bottom pipe
+        self.bottom_pipe_body = PipeBody("Images/pipe_body.png", [self.x_coordinate - half_width, self.bottom_pipe_height],
+                                      self.pipe_width, self.bottom_pipe_height)
+        self.bottom_pipe_head = PipeHead("Images/pipe_head.png", [self.x_coordinate - half_width, self.bottom_pipe_height
+                                                                  - half_width], self.pipe_width, half_width)
+        canvas.blit(self.bottom_pipe_head.image, self.bottom_pipe_head.rect)
+        canvas.blit(self.bottom_pipe_body.image, self.bottom_pipe_body.rect)
 
     def calculate_dimensions(self):
         """
