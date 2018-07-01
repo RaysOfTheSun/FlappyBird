@@ -43,8 +43,6 @@ class PipeSet:
         # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
         #              (self.x_coordinate, self.canvas_height*2), self.pipe_width)
 
-        x = self.x_coordinate // 2
-
         # The pipes have the same dimensions for the head sprite
         pipe_head_dimensions = (self.pipe_width, self.offset)
 
@@ -59,16 +57,13 @@ class PipeSet:
         bottom_pipe_body_dimensions = (self.pipe_width, self.bottom_pipe_height*2)
 
         # Draw the top pipe
-        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location,
-                              dimensions=top_pipe_body_dimensions)
-        self.__pipe_head.draw(canvas=canvas, location=top_pipe_head_location,
-                              dimensions=pipe_head_dimensions)
+        self.__pipe_body.to_canvas(canvas=canvas, location=top_pipe_body_location, dimensions=top_pipe_body_dimensions)
+        self.__pipe_head.to_canvas(canvas=canvas, location=top_pipe_head_location, dimensions=pipe_head_dimensions)
 
         # Draw the bottom pipe
-        self.__pipe_body.draw(canvas=canvas, location=bottom_pipe_body_location,
-                              dimensions=bottom_pipe_body_dimensions)
-        self.__pipe_head.draw(canvas=canvas, location=bottom_pipe_head_location,
-                              dimensions=pipe_head_dimensions)
+        self.__pipe_body.to_canvas(canvas=canvas, location=bottom_pipe_body_location,
+                                   dimensions=bottom_pipe_body_dimensions)
+        self.__pipe_head.to_canvas(canvas=canvas, location=bottom_pipe_head_location, dimensions=pipe_head_dimensions)
 
     def calculate_dimensions(self):
         """

@@ -5,14 +5,17 @@ from Objects.Sprite import Sprite
 
 
 class Bird:
-    def __init__(self, y_coord, x_coord=60):
+    def __init__(self, ground_offset, y_coord, x_coord=60):
         """
         Initializes a new bird object
         :param y_coord: The position of the bird on the x-axis
         :param x_coord: The position of the bird on the y-axis
+        :param ground_offset: The distance from the bottom of the canvas to the
+        top of the ground in the game world
         """
         self.__x_coordinate = x_coord
         self.__y_coordinate = y_coord
+        self.ground_offset = ground_offset
 
         # We need the height and width of the canvas for error handling purposes
         self.__canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
@@ -21,7 +24,7 @@ class Bird:
 
         # These limits will ensure that the entirety of the bird is always visible
         self.__upper_limit = self.canvas_height // self.__bird_width
-        self.__lower_limit = self.canvas_height - self.__bird_width
+        self.__lower_limit = (self.canvas_height - self.__bird_width) - 100
 
         # Sprite parameters
         self.__sprites = [Sprite(image_file=str(PurePath("Images/bird_wing_down.png"))),
@@ -61,7 +64,7 @@ class Bird:
         bird_dimensions = (self.__bird_width, self.__bird_width)
 
         # Draw the bird
-        self.__sprite.draw(canvas=canvas, location=bird_location, dimensions=bird_dimensions)
+        self.__sprite.to_canvas(canvas=canvas, location=bird_location, dimensions=bird_dimensions)
 
     def __fall(self):
         """
@@ -87,18 +90,19 @@ class Bird:
         Updates the position of the bird and also restricts it to within the visible area of the canvas
         :return:
         """
-        # applies a push or pull force to the bird
-        self.__y_coordinate += self.__velocity
 
         # enforce the limits so the bird will always be visible.
         # velocity is set to zero so the bird won't get 'stuck' when it hits the upper or lower boundaries of
         # the canvas.
-        if self.__y_coordinate <= 1:
+        if self.__y_coordinate <= 1 and not self.__jumped:
             self.__y_coordinate = self.__upper_limit
             self.__velocity = 0
-        elif self.__y_coordinate >= self.canvas_height:
+        elif self.__y_coordinate >= self.canvas_height - self.ground_offset:
             self.__y_coordinate = self.__lower_limit
             self.__velocity = 0
+        else:
+            # applies a push or pull force to the bird
+            self.__y_coordinate += self.__velocity
 
     def jump(self):
         """

@@ -1,9 +1,9 @@
 import pygame
-from pathlib import PurePath
 from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
+from WorldObjects.Ground import Ground
+from WorldObjects.Backdrop import Backdrop
 from Objects.ColorPalette import ColorPalette
-from Objects.Sprite import Sprite
 
 
 class Game:
@@ -21,9 +21,9 @@ class Game:
         pygame.display.set_caption("Flappy Bird")
 
         # Initialization of game models
-        self.background = Sprite(image_file=str(PurePath("Images/background.png")))
-        self.ground = Sprite(image_file=str(PurePath("Images/ground.png")))
-        self.bird = Bird(y_coord=self.screen_size[1] // 2)
+        self.ground = Ground(self.screen_size)
+        self.background = Backdrop(self.ground.offset)
+        self.bird = Bird(ground_offset=self.ground.offset, y_coord=self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
 
     def clean_canvas(self):
@@ -31,18 +31,7 @@ class Game:
         Removes everything that is drawn on the canvas or surface
         """
         self.canvas.fill(self.colorPalette.black)
-
-        # Parameters for the background
-        background_location = (0, -100)
-
-        # Draw the background over the canvas
-        self.background.draw(canvas=self.canvas, location=background_location)
-
-    def draw_ground(self):
-        # Parameters for the ground
-        ground_location = (0, 700)
-        ground_dimensions = (600, 100)
-        self.ground.draw(self.canvas, location=ground_location, dimensions=ground_dimensions)
+        self.background.to_canvas(canvas=self.canvas)
 
     def play(self):
         """
@@ -81,7 +70,7 @@ class Game:
 
             self.bird.to_canvas(canvas=self.canvas)
 
-            self.draw_ground()
+            self.ground.to_canvas(canvas=self.canvas)
 
             # Update the canvas so what we've drawn will be seen
             pygame.display.flip()

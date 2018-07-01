@@ -13,7 +13,7 @@ class Sprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
         self.__image = pygame.image.load(image_file).convert_alpha()  # Make blitting easier
 
-    def draw(self, canvas, location, dimensions=None):
+    def to_canvas(self, canvas, location, dimensions=None):
         """
         Draws the image onto the specified canvas or surface \n
         :param canvas: The surface wherein the bird is to be drawn on
