@@ -62,10 +62,11 @@ class Game:
 
             # In case the current pipe goes off-screen (i.e. its position in the x-axis becomes negative)
             # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
-            if self.pipes[0].x_coordinate <= 60:  # Pipe width:
+            if self.pipes[0].x_coordinate <= 60:  # Pipe width
                 self.pipes.pop(0)
 
-            if self.pipes[0].collide(self.bird):
+            # Only check if the bird will collide with the pipe that is in front of it
+            if self.pipes[0].collide(bird=self.bird):
                 print("Collision")
                 # play_game = False
 

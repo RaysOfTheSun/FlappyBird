@@ -25,7 +25,7 @@ class PipeSet:
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
-        self.scroll_speed = 2
+        self.scroll_speed = 2  # How fast the pipes will move towards the bird
 
         self.calculate_dimensions()
 
@@ -55,7 +55,7 @@ class PipeSet:
         bottom_pipe_body_dimensions = (self.pipe_width, self.bottom_pipe_height)
 
         # Draw the top pipe
-        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location, 
+        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location,
                               sprite_dimensions=top_pipe_body_dimensions)
         self.__pipe_head.draw(canvas=canvas, location=top_pipe_head_location,
                               sprite_dimensions=pipe_head_dimensions)
@@ -76,7 +76,7 @@ class PipeSet:
 
     def scroll(self):
         """
-        Gradually move the pipe off the screen
+        Gradually move the pipe towards the bird and off the screen
         """
         self.x_coordinate -= self.scroll_speed
 
