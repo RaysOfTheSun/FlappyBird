@@ -39,8 +39,8 @@ class PipeSet:
         # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, 0),
         #                 (self.x_coordinate, self.top_pipe_height), self.pipe_width)
         # bottom pipe
-        pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
-                       (self.x_coordinate, self.canvas_height*2), self.pipe_width)
+        # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
+        #              (self.x_coordinate, self.canvas_height*2), self.pipe_width)
 
         # The pipes have the same dimensions for the head sprite
         pipe_head_dimensions = (self.pipe_width, self.offset)
@@ -53,15 +53,19 @@ class PipeSet:
         # Parameters for the bottom pipe
         bottom_pipe_body_location = ((self.x_coordinate - self.offset), self.bottom_pipe_height)
         bottom_pipe_head_location = ((self.x_coordinate - self.offset), (self.bottom_pipe_height - self.offset))
-        bottom_pipe_body_dimensions = (self.pipe_width, self.bottom_pipe_height)
+        bottom_pipe_body_dimensions = (self.pipe_width, self.bottom_pipe_height*2)
 
         # Draw the top pipe
-        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location, dimensions=top_pipe_body_dimensions)
-        self.__pipe_head.draw(canvas=canvas, location=top_pipe_head_location, dimensions=pipe_head_dimensions)
+        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location,
+                              dimensions=top_pipe_body_dimensions)
+        self.__pipe_head.draw(canvas=canvas, location=top_pipe_head_location,
+                              dimensions=pipe_head_dimensions)
 
         # Draw the bottom pipe
-        self.__pipe_body.draw(canvas=canvas, location=bottom_pipe_body_location, dimensions=bottom_pipe_body_dimensions)
-        self.__pipe_head.draw(canvas=canvas, location=bottom_pipe_head_location, dimensions=pipe_head_dimensions)
+        self.__pipe_body.draw(canvas=canvas, location=bottom_pipe_body_location,
+                              dimensions=bottom_pipe_body_dimensions)
+        self.__pipe_head.draw(canvas=canvas, location=bottom_pipe_head_location,
+                              dimensions=pipe_head_dimensions)
 
     def calculate_dimensions(self):
         """
