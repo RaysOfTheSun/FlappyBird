@@ -2,7 +2,7 @@ import pygame
 from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
 from Objects.ColorPalette import ColorPalette
-from Sprites.Background import Background
+from Objects.Sprite import Sprite
 
 class Game:
     def __init__(self):
@@ -14,12 +14,12 @@ class Game:
 
         # initialization of Pygame components
         pygame.init()
-        self.screen_size = (600, 600)
+        self.screen_size = (600, 800)
         self.canvas = pygame.display.set_mode(self.screen_size, 0, 32)
         pygame.display.set_caption("Flappy Bird")
 
         # Initialization of game models
-        self.background = Background("Images/background.png", [0, 0])
+        self.background = Sprite(image_file="Images/background.png")
         self.bird = Bird(self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
 
@@ -29,8 +29,11 @@ class Game:
         """
         self.canvas.fill(self.colorPalette.black)
 
+        # Parameters for the background
+        background_location = (0, 0)
+
         # Draw the background over the canvas
-        # self.canvas.blit(self.background.image, self.background.rect)
+        self.background.draw(canvas=self.canvas, location=background_location)
 
     def play(self):
         """
@@ -54,7 +57,7 @@ class Game:
 
             self.make_pipes()
             for pipe_set in self.pipes:
-                pipe_set.to_canvas(self.canvas)
+                pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
 
             # In case the current pipe goes off-screen (i.e. its position in the x-axis becomes negative)
@@ -66,7 +69,7 @@ class Game:
                 print("Collision")
                 # play_game = False
 
-            self.bird.to_canvas(self.canvas)
+            self.bird.to_canvas(canvas=self.canvas)
 
             # Update the canvas so what we've drawn will be seen
             pygame.display.flip()

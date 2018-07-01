@@ -1,6 +1,6 @@
 import pygame
 from Objects.ColorPalette import ColorPalette
-from Sprites.Bird import Bird as Bird_Sprite
+from Objects.Sprite import Sprite
 
 
 class Bird:
@@ -22,7 +22,7 @@ class Bird:
         self.__upper_limit = self.__bird_width
         self.__lower_limit = self.canvas_height - self.__bird_width
 
-        self.sprite = None
+        self.__sprite = Sprite("Images/bird_wing_down.png")  # The sprite that represents the bird in-game
         self.__colorPalette = ColorPalette()
 
         self.__jumped = False
@@ -50,9 +50,13 @@ class Bird:
             self.__fall()
 
         self.__update_position()
-        self.sprite = Bird_Sprite("Images/bird.png", [self.x_coordinate, self.y_coordinate])
-        # Draw the image that represents the bird
-        canvas.blit(self.sprite.image, self.sprite.rect)
+
+        # Parameters for the bird's sprite
+        bird_location = (self.x_coordinate, self.y_coordinate)
+        bird_dimensions = (self.__bird_width, self.__bird_width)
+
+        # Draw the bird
+        self.__sprite.draw(canvas=canvas, location=bird_location, sprite_dimensions=bird_dimensions)
 
     def __fall(self):
         """
