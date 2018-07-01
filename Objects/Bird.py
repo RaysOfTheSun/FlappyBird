@@ -20,7 +20,7 @@ class Bird:
         self.__bird_width = 40
 
         # These limits will ensure that the entirety of the bird is always visible
-        self.__upper_limit = self.__bird_width
+        self.__upper_limit = self.canvas_height // self.__bird_width
         self.__lower_limit = self.canvas_height - self.__bird_width
 
         # Sprite parameters
@@ -32,7 +32,7 @@ class Bird:
 
         self.__jumped = False
 
-        self.__pull = -18  # application will result into negative velocity
+        self.__pull = -14  # application will result into negative velocity
         self.__gravity = 1  # the force the pulls the bird downward
         self.__velocity = 0  # dictates the speed and direction of the bird
 
@@ -91,12 +91,12 @@ class Bird:
         self.__y_coordinate += self.__velocity
 
         # enforce the limits so the bird will always be visible.
-        # velocity is set to zero so the bird won't get 'stuck' when it hits the upper and lower boundaries of
+        # velocity is set to zero so the bird won't get 'stuck' when it hits the upper or lower boundaries of
         # the canvas.
-        if self.__y_coordinate < 1:
+        if self.__y_coordinate <= 1:
             self.__y_coordinate = self.__upper_limit
             self.__velocity = 0
-        elif self.__y_coordinate > self.canvas_height:
+        elif self.__y_coordinate >= self.canvas_height:
             self.__y_coordinate = self.__lower_limit
             self.__velocity = 0
 

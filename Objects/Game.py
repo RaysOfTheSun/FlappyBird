@@ -22,6 +22,7 @@ class Game:
 
         # Initialization of game models
         self.background = Sprite(image_file=str(PurePath("Images/background.png")))
+        self.ground = Sprite(image_file=str(PurePath("Images/ground.png")))
         self.bird = Bird(y_coord=self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
 
@@ -32,10 +33,16 @@ class Game:
         self.canvas.fill(self.colorPalette.black)
 
         # Parameters for the background
-        background_location = (0, 0)
+        background_location = (0, -100)
 
         # Draw the background over the canvas
         self.background.draw(canvas=self.canvas, location=background_location)
+
+    def draw_ground(self):
+        # Parameters for the ground
+        ground_location = (0, 700)
+        ground_dimensions = (600, 100)
+        self.ground.draw(self.canvas, location=ground_location, dimensions=ground_dimensions)
 
     def play(self):
         """
@@ -73,6 +80,8 @@ class Game:
                 # play_game = False
 
             self.bird.to_canvas(canvas=self.canvas)
+
+            self.draw_ground()
 
             # Update the canvas so what we've drawn will be seen
             pygame.display.flip()

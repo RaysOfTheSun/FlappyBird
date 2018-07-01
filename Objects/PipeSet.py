@@ -19,8 +19,9 @@ class PipeSet:
         self.x_coordinate = self.canvas_height
         self.passable_space_height = 30
         self.pipe_width = 60
-        self.offset = self.pipe_width // 2  # Divide the pipe's width then floor (//) the result
+        self.offset = self.pipe_width // 2 # Divide the pipe's width then floor (//) the result
 
+        # Sprites
         self.__pipe_head = Sprite(str(PurePath("Images/pipe_head.png")))
         self.__pipe_body = Sprite(str(PurePath("Images/pipe_body.png")))
 
@@ -32,7 +33,7 @@ class PipeSet:
 
     def to_canvas(self, canvas):
         """
-        Draws the bird onto the specified canvas or surface
+        Draws the bird onto the specified canvas or surface \n
         :param canvas: The surface wherein the bird is to be drawn on
         """
         # top pipe
@@ -41,6 +42,8 @@ class PipeSet:
         # bottom pipe
         # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
         #              (self.x_coordinate, self.canvas_height*2), self.pipe_width)
+
+        x = self.x_coordinate // 2
 
         # The pipes have the same dimensions for the head sprite
         pipe_head_dimensions = (self.pipe_width, self.offset)
@@ -83,7 +86,7 @@ class PipeSet:
 
     def collide(self, bird):
         """
-        Determines whether the bird had collided with either of the two pipes in the pipe set
+        Determines whether the bird had collided with either of the two pipes in the pipe set \n
         :param bird: The bird object that the player controls \n
         :return:True if the bird had collided with any of the pipes in the set
         """
