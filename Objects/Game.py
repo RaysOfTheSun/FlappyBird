@@ -1,4 +1,5 @@
 import pygame
+from Objects.Menu import Menu
 from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
 from WorldObjects.Ground import Ground
@@ -27,6 +28,8 @@ class Game:
         self.bird = Bird(ground_offset=self.ground.offset, y_coord=self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
 
+        self.menu = Menu(canvas_dimensions=self.screen_size)
+
         self.player_points = 0
         self.scoreboard = ScoreBoard()
 
@@ -42,7 +45,31 @@ class Game:
         Run the game code
         """
         clock = pygame.time.Clock()
-        play_game = True
+        play_game = False
+        just_launched = True
+
+        while not play_game and just_launched:
+            clock.tick(60)
+            self.frame_number += 1
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    just_launched = False
+                elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
+                    self.pipes = [PipeSet()]
+                    play_game = True
+
+            self.background.to_canvas(canvas=self.canvas)
+            self.ground.to_canvas(canvas=self.canvas)
+
+            self.make_pipes()
+            for pipe_set in self.pipes:
+                pipe_set.to_canvas(canvas=self.canvas)
+                pipe_set.scroll()
+
+            self.menu.to_canvas(canvas=self.canvas)
+
+            pygame.display.flip()
+
         while play_game:
 
             # Set the frame rate to 60 frames per second (FPS)

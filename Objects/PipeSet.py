@@ -91,6 +91,7 @@ class PipeSet:
         """
         bird_inside_pipe_area = (bird.x_coordinate >= self.x_coordinate) \
                                 and (bird.x_coordinate <= self.x_coordinate + self.pipe_width)
+
         bird_in_contact = (bird.y_coordinate <= self.top_pipe_height) \
                           or (bird.y_coordinate >= self.bottom_pipe_height)
 
