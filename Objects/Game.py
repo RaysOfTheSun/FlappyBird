@@ -1,8 +1,10 @@
 import pygame
+from pathlib import PurePath
 from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
 from Objects.ColorPalette import ColorPalette
 from Objects.Sprite import Sprite
+
 
 class Game:
     def __init__(self):
@@ -19,7 +21,7 @@ class Game:
         pygame.display.set_caption("Flappy Bird")
 
         # Initialization of game models
-        self.background = Sprite(image_file="Images/background.png")
+        self.background = Sprite(image_file= str(PurePath("Images/background.png")))
         self.bird = Bird(self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
 

@@ -1,5 +1,6 @@
 import pygame
 import random
+from pathlib import PurePath
 from Objects.ColorPalette import ColorPalette
 from Objects.Sprite import Sprite
 
@@ -20,8 +21,8 @@ class PipeSet:
         self.pipe_width = 60
         self.offset = self.pipe_width // 2  # Divide the pipe's width then floor (//) the result
 
-        self.__pipe_head = Sprite("Images/pipe_head.png")
-        self.__pipe_body = Sprite("Images/pipe_body.png")
+        self.__pipe_head = Sprite(str(PurePath("Images/pipe_head.png")))
+        self.__pipe_body = Sprite(str(PurePath("Images/pipe_body.png")))
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
@@ -55,16 +56,12 @@ class PipeSet:
         bottom_pipe_body_dimensions = (self.pipe_width, self.bottom_pipe_height)
 
         # Draw the top pipe
-        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location,
-                              sprite_dimensions=top_pipe_body_dimensions)
-        self.__pipe_head.draw(canvas=canvas, location=top_pipe_head_location,
-                              sprite_dimensions=pipe_head_dimensions)
+        self.__pipe_body.draw(canvas=canvas, location=top_pipe_body_location, dimensions=top_pipe_body_dimensions)
+        self.__pipe_head.draw(canvas=canvas, location=top_pipe_head_location, dimensions=pipe_head_dimensions)
 
         # Draw the bottom pipe
-        self.__pipe_body.draw(canvas=canvas, location=bottom_pipe_body_location,
-                              sprite_dimensions=bottom_pipe_body_dimensions)
-        self.__pipe_head.draw(canvas=canvas, location=bottom_pipe_head_location,
-                              sprite_dimensions=pipe_head_dimensions)
+        self.__pipe_body.draw(canvas=canvas, location=bottom_pipe_body_location, dimensions=bottom_pipe_body_dimensions)
+        self.__pipe_head.draw(canvas=canvas, location=bottom_pipe_head_location, dimensions=pipe_head_dimensions)
 
     def calculate_dimensions(self):
         """

@@ -1,4 +1,5 @@
 import pygame
+from pathlib import PurePath
 from Objects.ColorPalette import ColorPalette
 from Objects.Sprite import Sprite
 
@@ -22,7 +23,8 @@ class Bird:
         self.__upper_limit = self.__bird_width
         self.__lower_limit = self.canvas_height - self.__bird_width
 
-        self.__sprite = Sprite("Images/bird_wing_down.png")  # The sprite that represents the bird in-game
+        # The sprite that represents the bird in-game
+        self.__sprite = Sprite(str(PurePath("Images/bird_wing_down.png")))
         self.__colorPalette = ColorPalette()
 
         self.__jumped = False
@@ -56,7 +58,7 @@ class Bird:
         bird_dimensions = (self.__bird_width, self.__bird_width)
 
         # Draw the bird
-        self.__sprite.draw(canvas=canvas, location=bird_location, sprite_dimensions=bird_dimensions)
+        self.__sprite.draw(canvas=canvas, location=bird_location, dimensions=bird_dimensions)
 
     def __fall(self):
         """
