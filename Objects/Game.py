@@ -68,11 +68,18 @@ class Game:
                 pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
 
+            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
+            # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
+            if self.menu_pipes[0].x_coordinate <= self.pipes[0].pipe_width:  # Pipe width
+                self.menu_pipes.pop(0)
+
             self.ground.to_canvas(canvas=self.canvas)
 
             self.menu.to_canvas(canvas=self.canvas)
 
             pygame.display.flip()
+
+            print(f"FPS: {clock.get_fps()}")
 
         while play_game:
 
@@ -93,7 +100,7 @@ class Game:
                 pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
 
-            # In case the current pipe goes off-screen (i.e. its position in the x-axis becomes negative)
+            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
             # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
             if self.pipes[0].x_coordinate <= 0:  # Pipe width
                 self.pipes.pop(0)
