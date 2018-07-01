@@ -31,6 +31,11 @@ class Bird:
                           Sprite(image_file=str(PurePath("res/Images/bird_wing_up.png")))]
         self.__sprite = self.__sprites[0]
 
+        # Import sound effects
+        self.hit_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_hit.wav")))
+        self.flap_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_wing_flap.wav")))
+        self.death_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_die.wav")))
+
         self.__colorPalette = ColorPalette()
 
         self.__jumped = False
@@ -80,6 +85,7 @@ class Bird:
         :return:
         """
         self.__sprite = self.__sprites[1]
+        self.flap_sound.play()
         if self.__y_coordinate > self.__upper_limit:
             self.__velocity += self.__pull
 

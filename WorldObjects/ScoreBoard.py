@@ -7,6 +7,7 @@ class ScoreBoard:
     def __init__(self):
         self.__font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 70)
         self.__color_palette = ColorPalette()
+        self.sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_point.wav")))
 
     def to_canvas(self, canvas, score):
         """
@@ -19,3 +20,9 @@ class ScoreBoard:
         score_surface_shadow = self.__font.render(score, False, self.__color_palette.black)
         canvas.blit(score_surface_shadow, (305, 50))
         canvas.blit(score_surface, (300, 50))
+
+    def buzz(self):
+        """
+        Plays a sound
+        """
+        self.sound.play()

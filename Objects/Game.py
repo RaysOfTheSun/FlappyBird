@@ -69,11 +69,11 @@ class Game:
 
             # Only check if the bird will collide with the pipe that is in front of it
             if self.pipes[0].collide(bird=self.bird):
-                pass
+                self.bird.hit_sound.play()
                 # play_game = False
             elif self.pipes[0].is_cleared(bird=self.bird):
                 self.player_points += 1
-                # print(f"points: {self.player_points}")
+                self.scoreboard.buzz()
 
             self.bird.to_canvas(canvas=self.canvas)
 
