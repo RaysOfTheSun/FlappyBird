@@ -17,14 +17,17 @@ class Bird:
         # We need the height and width of the canvas for error handling purposes
         self.__canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
 
-        self.__bird_width = 50
+        self.__bird_width = 40
 
         # These limits will ensure that the entirety of the bird is always visible
         self.__upper_limit = self.__bird_width
         self.__lower_limit = self.canvas_height - self.__bird_width
 
-        # The sprite that represents the bird in-game
-        self.__sprite = Sprite(str(PurePath("Images/bird_wing_down.png")))
+        # Sprite parameters
+        self.__sprites = [Sprite(image_file=str(PurePath("Images/bird_wing_down.png"))),
+                          Sprite(image_file=str(PurePath("Images/bird_wing_up.png")))]
+        self.__sprite = self.__sprites[0]
+
         self.__colorPalette = ColorPalette()
 
         self.__jumped = False
@@ -64,6 +67,7 @@ class Bird:
         """
         Pushes the bird downward
         """
+        self.__sprite = self.__sprites[0]
         if self.__y_coordinate < self.__lower_limit:
             self.__velocity += self.__gravity
 
@@ -72,6 +76,7 @@ class Bird:
         Pushes the bird upward
         :return:
         """
+        self.__sprite = self.__sprites[1]
         if self.__y_coordinate > self.__upper_limit:
             self.__velocity += self.__pull
 

@@ -16,13 +16,13 @@ class Game:
 
         # initialization of Pygame components
         pygame.init()
-        self.screen_size = (600, 800)
+        self.screen_size = (600, 800)  # width x height
         self.canvas = pygame.display.set_mode(self.screen_size, 0, 32)
         pygame.display.set_caption("Flappy Bird")
 
         # Initialization of game models
-        self.background = Sprite(image_file= str(PurePath("Images/background.png")))
-        self.bird = Bird(self.screen_size[1] // 2)
+        self.background = Sprite(image_file=str(PurePath("Images/background.png")))
+        self.bird = Bird(y_coord=self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
 
     def clean_canvas(self):
