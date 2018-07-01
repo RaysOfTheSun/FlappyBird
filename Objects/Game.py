@@ -27,6 +27,7 @@ class Game:
         self.background = Backdrop(self.ground.offset)
         self.bird = Bird(ground_offset=self.ground.offset, y_coord=self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
+        self.menu_pipes = [PipeSet()]
 
         self.menu = Menu(canvas_dimensions=self.screen_size)
 
@@ -55,16 +56,19 @@ class Game:
                 if event.type == pygame.QUIT:
                     just_launched = False
                 elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
-                    self.pipes = [PipeSet()]
+                    # reset the frame counter as not doing so would mess up pipe generation
+                    # once the actual game starts
+                    self.frame_number = 0
                     play_game = True
 
             self.background.to_canvas(canvas=self.canvas)
-            self.ground.to_canvas(canvas=self.canvas)
 
-            self.make_pipes()
-            for pipe_set in self.pipes:
+            self.make_pipes(self.menu_pipes)
+            for pipe_set in self.menu_pipes:
                 pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
+
+            self.ground.to_canvas(canvas=self.canvas)
 
             self.menu.to_canvas(canvas=self.canvas)
 
@@ -84,7 +88,7 @@ class Game:
                 elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
                     self.bird.jump()
 
-            self.make_pipes()
+            self.make_pipes(self.pipes)
             for pipe_set in self.pipes:
                 pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
@@ -118,12 +122,12 @@ class Game:
 
         pygame.quit()
 
-    def make_pipes(self):
+    def make_pipes(self, pipe_set):
         """
         Creates a new PipeSet object that will serve as an obstacle in the game
         """
         # Every 60 frames, we draw a new pipe
         if self.frame_number % 60 == 0:
-            self.pipes.append(PipeSet())
+            pipe_set.append(PipeSet())
             self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
 
