@@ -2,6 +2,7 @@ class ColorPalette:
     def __init__(self):
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
+        self.white_smoke = (245, 245, 245)
         self.blue = (0, 0, 255)
         self.purple = (102, 51, 153)
         self.green = (0, 128, 0)

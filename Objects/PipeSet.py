@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 from pathlib import PurePath
 from Objects.ColorPalette import ColorPalette
 from Objects.Sprite import Sprite
@@ -22,8 +23,8 @@ class PipeSet:
         self.offset = self.pipe_width // 2 # Divide the pipe's width then floor (//) the result
 
         # Sprites
-        self.__pipe_head = Sprite(str(PurePath("Images/pipe_head.png")))
-        self.__pipe_body = Sprite(str(PurePath("Images/pipe_body.png")))
+        self.__pipe_head = Sprite(str(PurePath("res/Images/pipe_head.png")))
+        self.__pipe_body = Sprite(str(PurePath("res/Images/pipe_body.png")))
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
@@ -57,13 +58,16 @@ class PipeSet:
         bottom_pipe_body_dimensions = (self.pipe_width, self.bottom_pipe_height*2)
 
         # Draw the top pipe
-        self.__pipe_body.to_canvas(canvas=canvas, location=top_pipe_body_location, dimensions=top_pipe_body_dimensions)
-        self.__pipe_head.to_canvas(canvas=canvas, location=top_pipe_head_location, dimensions=pipe_head_dimensions)
+        self.__pipe_body.to_canvas(canvas=canvas, location=top_pipe_body_location,
+                                   dimensions=top_pipe_body_dimensions)
+        self.__pipe_head.to_canvas(canvas=canvas, location=top_pipe_head_location,
+                                   dimensions=pipe_head_dimensions)
 
         # Draw the bottom pipe
         self.__pipe_body.to_canvas(canvas=canvas, location=bottom_pipe_body_location,
                                    dimensions=bottom_pipe_body_dimensions)
-        self.__pipe_head.to_canvas(canvas=canvas, location=bottom_pipe_head_location, dimensions=pipe_head_dimensions)
+        self.__pipe_head.to_canvas(canvas=canvas, location=bottom_pipe_head_location,
+                                   dimensions=pipe_head_dimensions)
 
     def calculate_dimensions(self):
         """
@@ -91,6 +95,21 @@ class PipeSet:
                           or (bird.y_coordinate >= self.bottom_pipe_height)
 
         if bird_in_contact and bird_inside_pipe_area:
+            return True
+        else:
+            return False
+
+    def is_cleared(self, bird):
+        """
+        Determines whether the bird has successfully passed through the pipe \n
+        :return: True if the bird did not hit any of the pipes in the pipe set
+        """
+        mid_point_x = (self.x_coordinate + bird.x_coordinate) // 2
+        mid_point_y = (self.top_pipe_height + self.bottom_pipe_height) // 2
+
+        # if the bird passes through the are in-between the two pipes, it has cleared the obstacle
+        if (bird.x_coordinate == mid_point_x and bird.y_coordinate >= mid_point_y)\
+                or (bird.x_coordinate == mid_point_x and bird.y_coordinate <= mid_point_y):
             return True
         else:
             return False

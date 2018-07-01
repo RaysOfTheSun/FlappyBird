@@ -13,7 +13,7 @@ class Backdrop:
         the backdrop is to be drawn
         """
         self.offset = ground_offset
-        self.sprite = Sprite(str(PurePath("Images/background.png")))
+        self.sprite = Sprite(str(PurePath("res/Images/background.png")))
         self.location = (0, -self.offset)
 
     def to_canvas(self, canvas):

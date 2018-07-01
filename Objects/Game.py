@@ -3,6 +3,7 @@ from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
 from WorldObjects.Ground import Ground
 from WorldObjects.Backdrop import Backdrop
+from WorldObjects.ScoreBoard import ScoreBoard
 from Objects.ColorPalette import ColorPalette
 
 
@@ -25,6 +26,9 @@ class Game:
         self.background = Backdrop(self.ground.offset)
         self.bird = Bird(ground_offset=self.ground.offset, y_coord=self.screen_size[1] // 2)
         self.pipes = [PipeSet()]
+
+        self.player_points = 0
+        self.scoreboard = ScoreBoard()
 
     def clean_canvas(self):
         """
@@ -65,12 +69,17 @@ class Game:
 
             # Only check if the bird will collide with the pipe that is in front of it
             if self.pipes[0].collide(bird=self.bird):
-                print("Collision")
+                pass
                 # play_game = False
+            elif self.pipes[0].is_cleared(bird=self.bird):
+                self.player_points += 1
+                # print(f"points: {self.player_points}")
 
             self.bird.to_canvas(canvas=self.canvas)
 
             self.ground.to_canvas(canvas=self.canvas)
+
+            self.scoreboard.to_canvas(canvas=self.canvas, score=str(self.player_points))
 
             # Update the canvas so what we've drawn will be seen
             pygame.display.flip()

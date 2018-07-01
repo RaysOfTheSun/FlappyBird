@@ -12,7 +12,7 @@ class Ground:
         self.canvas_width, self.canvas_height = canvas_dimensions
         self.location = (0, self.canvas_height - self.offset)
         self.dimensions = (self.canvas_height - self.offset, self.offset)
-        self.sprite = Sprite(str(PurePath("Images/ground.png")))
+        self.sprite = Sprite(str(PurePath("res/Images/ground.png")))
 
     def to_canvas(self, canvas):
         """

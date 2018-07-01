@@ -27,8 +27,8 @@ class Bird:
         self.__lower_limit = (self.canvas_height - self.__bird_width) - 100
 
         # Sprite parameters
-        self.__sprites = [Sprite(image_file=str(PurePath("Images/bird_wing_down.png"))),
-                          Sprite(image_file=str(PurePath("Images/bird_wing_up.png")))]
+        self.__sprites = [Sprite(image_file=str(PurePath("res/Images/bird_wing_down.png"))),
+                          Sprite(image_file=str(PurePath("res/Images/bird_wing_up.png")))]
         self.__sprite = self.__sprites[0]
 
         self.__colorPalette = ColorPalette()
