@@ -13,3 +13,4 @@ class ColorPalette:
         self.dark_golden_rod = (184, 134, 11)
         self.salmon = (250, 128, 114)
         self.pale_golden_rod = (238, 232, 170)
+        self.dark_khaki = (189, 183, 107)

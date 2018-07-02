@@ -35,7 +35,7 @@ class Game:
 
         self.player_points = 0
         self.scoreboard = Scoreboard(canvas_dimensions=self.screen_size)
-        self.game_over_screen = GameOverMenu(score=self.player_points, canvas_dimensions=self.screen_size)
+        self.game_over_screen = GameOverMenu(canvas_dimensions=self.screen_size)
 
         self.__play_game = False
         self.__just_launched = True
@@ -83,7 +83,7 @@ class Game:
                 self.bird.hit_sound.play()
                 self.player_dead = True
             elif self.pipes[0].is_cleared(bird=self.bird):
-                self.player_points += 1
+                self.player_points += 99
                 self.scoreboard.buzz()
 
             self.bird.to_canvas(canvas=self.canvas)
@@ -184,7 +184,7 @@ class Game:
 
             self.ground.to_canvas(canvas=self.canvas)
 
-            self.game_over_screen.to_canvas(canvas=self.canvas)
+            self.game_over_screen.to_canvas(canvas=self.canvas, score=self.player_points)
 
             pygame.display.flip()
 
