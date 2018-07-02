@@ -5,6 +5,11 @@ from Objects.ColorPalette import ColorPalette
 
 class Menu:
     def __init__(self, canvas_dimensions):
+        """
+        Initializes a new instance of the Menu class
+        :param canvas_dimensions: A width x height tuple representing the dimensions of the canvas wherein the
+        menu is to be drawn
+        """
         self.__color_palette = ColorPalette()
         self.frame_number = 0
 
@@ -19,7 +24,6 @@ class Menu:
         """
         Draws the menu to the specified canvas
         """
-
         title_surface = self.__title_font.render("Flappy Bird", False, self.__color_palette.white_smoke)
         title_surface_shadow = self.__title_font.render("Flappy Bird", False, self.__color_palette.black)
 

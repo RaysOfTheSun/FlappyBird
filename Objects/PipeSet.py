@@ -17,9 +17,9 @@ class PipeSet:
         self.canvas_height, self.canvas_width = pygame.display.get_surface().get_size()
         self.color_palette = ColorPalette()
 
-        self.x_coordinate = self.canvas_height
+        self.__x_coordinate = self.canvas_height
         self.__pipe_width = 60
-        self.__passable_space_height = 50
+        self.__passable_space_height = self.__pipe_width
         self.offset = self.__pipe_width // 2  # Divide the pipe's width then floor (//) the result
 
         # Sprites
@@ -35,6 +35,10 @@ class PipeSet:
     @property
     def pipe_width(self):
         return self.__pipe_width
+
+    @property
+    def x_coordinate(self):
+        return self.__x_coordinate
 
     def to_canvas(self, canvas):
         """
@@ -52,13 +56,13 @@ class PipeSet:
         pipe_head_dimensions = (self.__pipe_width, self.offset)
 
         # Parameters for the top pipe
-        top_pipe_body_location = ((self.x_coordinate - self.offset), -self.offset)
-        top_pipe_head_location = ((self.x_coordinate - self.offset), (self.top_pipe_height - self.offset))
+        top_pipe_body_location = ((self.__x_coordinate - self.offset), -self.offset)
+        top_pipe_head_location = ((self.__x_coordinate - self.offset), (self.top_pipe_height - self.offset))
         top_pipe_body_dimensions = (self.__pipe_width, self.top_pipe_height)
 
         # Parameters for the bottom pipe
-        bottom_pipe_body_location = ((self.x_coordinate - self.offset), self.bottom_pipe_height - self.offset)
-        bottom_pipe_head_location = ((self.x_coordinate - self.offset), (self.bottom_pipe_height - self.offset))
+        bottom_pipe_body_location = ((self.__x_coordinate - self.offset), self.bottom_pipe_height - self.offset)
+        bottom_pipe_head_location = ((self.__x_coordinate - self.offset), (self.bottom_pipe_height - self.offset))
         bottom_pipe_body_dimensions = (self.__pipe_width, self.bottom_pipe_height * 4)
 
         # Draw the top pipe
@@ -77,28 +81,15 @@ class PipeSet:
         """
         Calculates the height and gap between the two pipes in the pipe set
         """
-        max_height = (self.canvas_height // 2) - self.__passable_space_height
+        max_height = abs((self.canvas_width // 2) - self.__passable_space_height * 4)
         self.bottom_pipe_height = random.choice(range(max_height, self.canvas_height))
         self.top_pipe_height = random.choice(range(self.__passable_space_height, max_height))
-
-        if (abs(self.bottom_pipe_height - self.top_pipe_height)) <= self.__passable_space_height:
-            self.__shrink_longer_pipe()
-
-    def __shrink_longer_pipe(self):
-        """
-        Reduces the height of the longer pipe in the pipe set
-        :return:
-        """
-        if self.bottom_pipe_height >= self.top_pipe_height:
-            self.bottom_pipe_height = self.bottom_pipe_height - self.__passable_space_height
-        else:
-            self.top_pipe_height = self.top_pipe_height - self.__passable_space_height
 
     def scroll(self):
         """
         Gradually move the pipe towards the bird and off the screen
         """
-        self.x_coordinate -= self.scroll_speed
+        self.__x_coordinate -= self.scroll_speed
 
     def collide(self, bird):
         """
@@ -106,8 +97,8 @@ class PipeSet:
         :param bird: The bird object that the player controls \n
         :return:True if the bird had collided with any of the pipes in the set
         """
-        bird_inside_pipe_area = (bird.x_coordinate >= self.x_coordinate) \
-                                and (bird.x_coordinate <= self.x_coordinate + self.__pipe_width)
+        bird_inside_pipe_area = (bird.x_coordinate >= self.__x_coordinate) \
+                                and (bird.x_coordinate <= self.__x_coordinate + self.__pipe_width)
 
         bird_in_contact = (bird.y_coordinate <= self.top_pipe_height) \
                           or (bird.y_coordinate >= self.bottom_pipe_height)
@@ -122,7 +113,7 @@ class PipeSet:
         Determines whether the bird has successfully passed through the pipe \n
         :return: True if the bird did not hit any of the pipes in the pipe set
         """
-        mid_point_x = (self.x_coordinate + bird.x_coordinate) // 2
+        mid_point_x = (self.__x_coordinate + bird.x_coordinate) // 2
         mid_point_y = (self.top_pipe_height + self.bottom_pipe_height) // 2
 
         # if the bird passes through the are in-between the two pipes, it has cleared the obstacle

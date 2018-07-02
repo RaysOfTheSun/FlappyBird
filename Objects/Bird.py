@@ -24,7 +24,7 @@ class Bird:
 
         # These limits will ensure that the entirety of the bird is always visible
         self.__upper_limit = self.canvas_height // self.__bird_width
-        self.__lower_limit = (self.canvas_height - self.__bird_width) - 100
+        self.__lower_limit = (self.canvas_height - self.__bird_width) - self.ground_offset
 
         # Sprite parameters
         self.__sprites = [Sprite(image_file=str(PurePath("res/Images/bird_wing_down.png"))),

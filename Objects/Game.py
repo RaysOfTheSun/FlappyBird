@@ -43,7 +43,7 @@ class Game:
 
     def play(self):
         """
-        Run the game code
+        Run the game
         """
         clock = pygame.time.Clock()
         play_game = False
@@ -56,10 +56,8 @@ class Game:
                 if event.type == pygame.QUIT:
                     just_launched = False
                 elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
-                    # reset the frame counter as not doing so would mess up pipe generation
-                    # once the actual game starts
-                    self.frame_number = 0
                     play_game = True
+                    break
 
             self.background.to_canvas(canvas=self.canvas)
 
@@ -68,9 +66,9 @@ class Game:
                 pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
 
-            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
-            # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
-            if self.menu_pipes[0].x_coordinate <= self.pipes[0].pipe_width:  # Pipe width
+            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0),
+            # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
+            if self.menu_pipes[0].x_coordinate <= self.pipes[0].pipe_width:
                 self.menu_pipes.pop(0)
 
             self.ground.to_canvas(canvas=self.canvas)
@@ -81,8 +79,9 @@ class Game:
 
             print(f"FPS: {clock.get_fps()}")
 
-        while play_game:
+        self.clear_menu_components()
 
+        while play_game:
             # Set the frame rate to 60 frames per second (FPS)
             # skipping this would make the thing unplayable lol
             clock.tick(60)
@@ -101,8 +100,8 @@ class Game:
                 pipe_set.scroll()
 
             # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
-            # remove the PipeSet (pipe) object from the PipeSet collection so it won't grow too much
-            if self.pipes[0].x_coordinate <= 0:  # Pipe width
+            # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
+            if self.pipes[0].x_coordinate <= 0:
                 self.pipes.pop(0)
 
             # Only check if the bird will collide with the pipe that is in front of it
@@ -128,6 +127,14 @@ class Game:
             print(f"FPS: {clock.get_fps()}")
 
         pygame.quit()
+
+    def clear_menu_components(self):
+        """
+        Cleans up anything generated and modified by the menu module of the game
+        """
+        self.menu = None
+        self.menu_pipes = None
+        self.frame_number = 0  # Reset this one as it's also used by the actual game loop
 
     def make_pipes(self, pipe_set):
         """
