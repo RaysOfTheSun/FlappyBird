@@ -97,13 +97,11 @@ class PipeSet:
         :param bird: The bird object that the player controls \n
         :return:True if the bird had collided with any of the pipes in the set
         """
-        bird_inside_pipe_area = (bird.x_coordinate >= self.__x_coordinate) \
-                                and (bird.x_coordinate <= self.__x_coordinate + self.__pipe_width)
+        bird_in_contact = ((self.x_coordinate - self.pipe_width) - bird.x_coordinate) <= 0
 
-        bird_in_contact = (bird.y_coordinate <= self.top_pipe_height) \
-                          or (bird.y_coordinate >= self.bottom_pipe_height)
-
-        if bird_in_contact and bird_inside_pipe_area:
+        mid_point_y = ((self.top_pipe_height + self.bottom_pipe_height) // 2) - self.pipe_width
+        if (bird_in_contact and (bird.y_coordinate <= self.top_pipe_height and bird.y_coordinate < mid_point_y)) or \
+                (bird_in_contact and (bird.y_coordinate >= self.bottom_pipe_height and bird.y_coordinate > mid_point_y)):
             return True
         else:
             return False

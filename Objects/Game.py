@@ -106,6 +106,7 @@ class Game:
 
             # Only check if the bird will collide with the pipe that is in front of it
             if self.pipes[0].collide(bird=self.bird):
+                # print(f"COLLISION with pipe {self.pipes[0]}")
                 self.bird.hit_sound.play()
                 # play_game = False
             elif self.pipes[0].is_cleared(bird=self.bird):
@@ -144,4 +145,3 @@ class Game:
         if self.frame_number % 60 == 0:
             pipe_set.append(PipeSet())
             self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
-
