@@ -22,8 +22,8 @@ class GameOverMenu:
         self.__title_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 65)
         self.__highlight_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 70)
         self.__outline_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 75)
-
         self.__score_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 30)
+        self.__prompt_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 30)
 
         self.game_title_surface = self.__title_font.render("Game", False, self.__color_palette.orange)
         self.game_highlight_surface = self.__highlight_font.render("Game", False, self.__color_palette.white_smoke)
@@ -37,6 +37,12 @@ class GameOverMenu:
                                                      self.canvas_width // 2 - 60, 425, 220)
         self.score_header_surface = self.__title_font.render("Score:", False, self.__color_palette.orange)
         self.best_header_surface = self.__title_font.render("Best:", False, self.__color_palette.orange)
+
+        # Initialize prompt text
+        self.prompt_surface = self.__prompt_font.render("Press anything to play again", False,
+                                                        self.__color_palette.dark_golden_rod)
+        self.prompt_surface_shadow = self.__prompt_font.render("Press anything to play again", False,
+                                                               self.__color_palette.white_smoke)
 
     def to_canvas(self, canvas, score):
         """
@@ -60,4 +66,9 @@ class GameOverMenu:
         canvas.blit(self.best_header_surface, ((self.canvas_width // 5), (self.canvas_height // 2) - 50))
         canvas.blit(score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 120))
         canvas.blit(score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 50))
+
+        # Draw the prompt text
+        canvas.blit(self.prompt_surface_shadow, ((self.canvas_width // 8) - 5, (self.canvas_height // 2) + 100))
+        canvas.blit(self.prompt_surface, ((self.canvas_width // 8), (self.canvas_height // 2) + 100))
+
 
