@@ -1,4 +1,4 @@
-from Objects.Game import Game
+from GameModules.Game import Game
 
 game = Game()
 game.play()

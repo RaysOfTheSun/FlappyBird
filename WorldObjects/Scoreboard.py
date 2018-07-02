@@ -1,6 +1,6 @@
 import pygame
 from pathlib import PurePath
-from Objects.ColorPalette import ColorPalette
+from GameModules.ColorPalette import ColorPalette
 
 
 class Scoreboard:

@@ -1,5 +1,5 @@
 from pathlib import PurePath
-from Objects.Sprite import Sprite
+from GameObjects.Sprite import Sprite
 
 
 class Backdrop:

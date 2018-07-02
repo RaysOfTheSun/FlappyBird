@@ -1,11 +1,12 @@
 import pygame
-from Objects.Menu import Menu
-from Objects.Bird import Bird
-from Objects.PipeSet import PipeSet
+from GameModules.MainMenu import Menu
+from GameObjects.Bird import Bird
+from GameObjects.PipeSet import PipeSet
 from WorldObjects.Ground import Ground
 from WorldObjects.Backdrop import Backdrop
 from WorldObjects.Scoreboard import Scoreboard
-from Objects.ColorPalette import ColorPalette
+from GameModules.GameOverMenu import GameOverMenu
+from GameModules.ColorPalette import ColorPalette
 
 
 class Game:
@@ -33,6 +34,7 @@ class Game:
 
         self.player_points = 0
         self.scoreboard = Scoreboard(canvas_dimensions=self.screen_size)
+        self.game_over = GameOverMenu(score=self.player_points, canvas_dimensions=self.screen_size)
 
     def clean_canvas(self):
         """
