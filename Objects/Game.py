@@ -4,7 +4,7 @@ from Objects.Bird import Bird
 from Objects.PipeSet import PipeSet
 from WorldObjects.Ground import Ground
 from WorldObjects.Backdrop import Backdrop
-from WorldObjects.ScoreBoard import ScoreBoard
+from WorldObjects.Scoreboard import Scoreboard
 from Objects.ColorPalette import ColorPalette
 
 
@@ -32,7 +32,7 @@ class Game:
         self.menu = Menu(canvas_dimensions=self.screen_size)
 
         self.player_points = 0
-        self.scoreboard = ScoreBoard()
+        self.scoreboard = Scoreboard(canvas_dimensions=self.screen_size)
 
     def clean_canvas(self):
         """
