@@ -22,6 +22,7 @@ class Game:
         self.screen_size = (600, 800)  # width x height
         self.canvas = pygame.display.set_mode(self.screen_size, 0, 32)
         pygame.display.set_caption("Flappy Bird")
+        self.clock = pygame.time.Clock()
 
         # Initialization of game models
         self.ground = Ground(self.screen_size)
@@ -34,7 +35,11 @@ class Game:
 
         self.player_points = 0
         self.scoreboard = Scoreboard(canvas_dimensions=self.screen_size)
-        self.game_over = GameOverMenu(score=self.player_points, canvas_dimensions=self.screen_size)
+        self.game_over_screen = GameOverMenu(score=self.player_points, canvas_dimensions=self.screen_size)
+
+        self.__play_game = False
+        self.__just_launched = True
+        self.player_dead = False
 
     def clean_canvas(self):
         """
@@ -47,18 +52,87 @@ class Game:
         """
         Run the game
         """
-        clock = pygame.time.Clock()
-        play_game = False
-        just_launched = True
+        self.show_main_menu()
+        self.reset_components()
 
-        while not play_game and just_launched:
-            clock.tick(60)
+        while self.__play_game and not self.player_dead:
+            # Set the frame rate to 60 frames per second (FPS)
+            # skipping this would make the thing unplayable lol
+            self.clock.tick(60)
+
+            self.frame_number += 1
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.__play_game = False
+                elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
+                    self.bird.jump()
+
+            self.make_pipes(self.pipes)
+            for pipe_set in self.pipes:
+                pipe_set.to_canvas(canvas=self.canvas)
+                pipe_set.scroll()
+
+            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
+            # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
+            if self.pipes[0].x_coordinate <= 0:
+                self.pipes.pop(0)
+
+            # Only check if the bird will collide with the pipe that is in front of it
+            if self.pipes[0].collide(bird=self.bird):
+                self.bird.hit_sound.play()
+                self.player_dead = True
+            elif self.pipes[0].is_cleared(bird=self.bird):
+                self.player_points += 1
+                self.scoreboard.buzz()
+
+            self.bird.to_canvas(canvas=self.canvas)
+
+            self.ground.to_canvas(canvas=self.canvas)
+
+            self.scoreboard.to_canvas(canvas=self.canvas, score=str(self.player_points))
+
+            # Update the canvas so what we've drawn will be seen
+            pygame.display.flip()
+
+            # erase everything in the canvas before redrawing so new stuff won't overlap with old stuff
+            self.clean_canvas()
+
+            if self.player_dead:
+                self.show_game_over_screen()
+                self.reset_components()
+
+            print(f"FPS: {self.clock.get_fps()}")
+
+        pygame.quit()
+
+    def reset_components(self):
+        """
+        Cleans up anything generated and modified by the menu module of the game
+        """
+        self.menu_pipes = [PipeSet()]
+        self.pipes = [PipeSet()]
+        self.frame_number = 0  # Reset this one as it's also used by the actual game loop
+        self.player_points = 0
+
+    def make_pipes(self, pipe_set):
+        """
+        Creates a new PipeSet object that will serve as an obstacle in the game
+        """
+        # Every 60 frames, we draw a new pipe
+        if self.frame_number % 60 == 0:
+            pipe_set.append(PipeSet())
+            self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
+
+    def show_main_menu(self):
+        while not self.__play_game and self.__just_launched:
+            self.clock.tick(60)
             self.frame_number += 1
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    just_launched = False
+                    self.__just_launched = False
                 elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
-                    play_game = True
+                    self.__play_game = True
                     break
 
             self.background.to_canvas(canvas=self.canvas)
@@ -79,71 +153,43 @@ class Game:
 
             pygame.display.flip()
 
-            print(f"FPS: {clock.get_fps()}")
+            print(f"FPS: {self.clock.get_fps()}")
 
-        self.clear_menu_components()
-
-        while play_game:
-            # Set the frame rate to 60 frames per second (FPS)
-            # skipping this would make the thing unplayable lol
-            clock.tick(60)
-
+    def show_game_over_screen(self):
+        while self.player_dead:
+            self.clock.tick(60)
             self.frame_number += 1
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    play_game = False
+                    self.__play_game = False
+                    self.player_dead = False
+
                 elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
-                    self.bird.jump()
+                    self.__play_game = True
+                    self.player_dead = False
+                    break
+
+            self.background.to_canvas(canvas=self.canvas)
 
             self.make_pipes(self.pipes)
             for pipe_set in self.pipes:
                 pipe_set.to_canvas(canvas=self.canvas)
                 pipe_set.scroll()
 
-            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
+            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0),
             # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
-            if self.pipes[0].x_coordinate <= 0:
+            if self.pipes[0].x_coordinate <= self.pipes[0].pipe_width:
                 self.pipes.pop(0)
-
-            # Only check if the bird will collide with the pipe that is in front of it
-            if self.pipes[0].collide(bird=self.bird):
-                # print(f"COLLISION with pipe {self.pipes[0]}")
-                self.bird.hit_sound.play()
-                # play_game = False
-            elif self.pipes[0].is_cleared(bird=self.bird):
-                self.player_points += 1
-                self.scoreboard.buzz()
-
-            self.bird.to_canvas(canvas=self.canvas)
 
             self.ground.to_canvas(canvas=self.canvas)
 
-            self.scoreboard.to_canvas(canvas=self.canvas, score=str(self.player_points))
+            self.game_over_screen.to_canvas(canvas=self.canvas)
 
-            # Update the canvas so what we've drawn will be seen
             pygame.display.flip()
 
-            # erase everything in the canvas before redrawing so new stuff won't overlap with old stuff
-            self.clean_canvas()
+            print(f"FPS: {self.clock.get_fps()}")
 
-            print(f"FPS: {clock.get_fps()}")
 
-        pygame.quit()
 
-    def clear_menu_components(self):
-        """
-        Cleans up anything generated and modified by the menu module of the game
-        """
-        self.menu = None
-        self.menu_pipes = None
-        self.frame_number = 0  # Reset this one as it's also used by the actual game loop
 
-    def make_pipes(self, pipe_set):
-        """
-        Creates a new PipeSet object that will serve as an obstacle in the game
-        """
-        # Every 60 frames, we draw a new pipe
-        if self.frame_number % 60 == 0:
-            pipe_set.append(PipeSet())
-            self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
