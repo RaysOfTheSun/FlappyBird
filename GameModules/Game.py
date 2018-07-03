@@ -1,4 +1,5 @@
 import pygame
+from pathlib import PurePath
 from GameModules.MainMenu import Menu
 from GameObjects.Bird import Bird
 from GameObjects.PipeSet import PipeSet
@@ -19,9 +20,11 @@ class Game:
 
         # initialization of Pygame components
         pygame.init()
+        self.__icon = self.__make_icon()
         self.screen_size = (600, 800)  # width x height
         self.canvas = pygame.display.set_mode(self.screen_size, 0, 32)
         pygame.display.set_caption("Flappy Bird")
+        pygame.display.set_icon(self.__icon)
         self.clock = pygame.time.Clock()
 
         # Initialization of game models
@@ -40,6 +43,15 @@ class Game:
         self.__play_game = False
         self.__just_launched = True
         self.player_dead = False
+        self.scroll_speed = 2
+
+    @staticmethod
+    def __make_icon():
+        """
+        Constructs the surface for the window's icon
+        """
+        icon = pygame.image.load(str(PurePath("res/Images/bird_wing_down.png")))
+        return icon
 
     def clean_canvas(self):
         """
@@ -71,9 +83,9 @@ class Game:
             self.make_pipes(self.pipes)
             for pipe_set in self.pipes:
                 pipe_set.to_canvas(canvas=self.canvas)
-                pipe_set.scroll()
+                pipe_set.scroll(scroll_speed=self.scroll_speed)
 
-            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0)
+            # In case the current pipe (pipe in front of the bird) goes off-screen (i.e. x-coordinate <= 0),
             # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
             if self.pipes[0].x_coordinate <= 0:
                 self.pipes.pop(0)
@@ -99,8 +111,12 @@ class Game:
             self.clean_canvas()
 
             if self.player_dead:
+                self.let_bird_fall()
                 self.show_game_over_screen()
                 self.reset_components()
+
+            if (self.player_points > 0 and self.player_points % 20 == 0) and (self.scroll_speed <= 4):
+                self.scroll_speed += 1
 
             print(f"FPS: {self.clock.get_fps()}")
 
@@ -124,6 +140,24 @@ class Game:
             pipe_set.append(PipeSet())
             self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
 
+    def let_bird_fall(self):
+        """
+        Lets the bird plunge into oblivion
+        """
+        self.bird.death_sound.play()
+        while (self.bird.y_coordinate != self.bird.lower_limit) or (self.frame_number % 40 != 0):
+            self.clock.tick(60)
+            self.frame_number += 1
+
+            for pipe_set in self.pipes:
+                pipe_set.to_canvas(canvas=self.canvas)
+
+            self.bird.to_canvas(canvas=self.canvas)
+            self.ground.to_canvas(canvas=self.canvas)
+
+            pygame.display.flip()
+            self.clean_canvas()
+
     def show_main_menu(self):
         """
         Draws the main menu text onto the canvas
@@ -144,9 +178,9 @@ class Game:
             self.make_pipes(self.menu_pipes)
             for pipe_set in self.menu_pipes:
                 pipe_set.to_canvas(canvas=self.canvas)
-                pipe_set.scroll()
+                pipe_set.scroll(scroll_speed=2)
 
-            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0),
+            # In case the current pipe (pipe in front of the bird) goes off-screen (i.e. x-coordinate <= 0),
             # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
             if self.menu_pipes[0].x_coordinate <= self.pipes[0].pipe_width:
                 self.menu_pipes.pop(0)
@@ -160,6 +194,9 @@ class Game:
             print(f"FPS: {self.clock.get_fps()}")
 
     def show_game_over_screen(self):
+        """
+        Display the player's score in a separate screen
+        """
         while self.player_dead:
             self.clock.tick(60)
             self.frame_number += 1
@@ -168,20 +205,19 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.__play_game = False
                     self.player_dead = False
-
-                elif (event.type == pygame.KEYDOWN) or (event.type == pygame.MOUSEBUTTONDOWN):
+                elif (event.type == pygame.KEYDOWN) and (event.key == pygame.K_y):
+                    self.bird.reset()
                     self.__play_game = True
                     self.player_dead = False
-                    break
 
             self.background.to_canvas(canvas=self.canvas)
 
             self.make_pipes(self.pipes)
             for pipe_set in self.pipes:
                 pipe_set.to_canvas(canvas=self.canvas)
-                pipe_set.scroll()
+                pipe_set.scroll(scroll_speed=2)
 
-            # In case the current pipe (pipe in the front) goes off-screen (i.e. x-coordinate <= 0),
+            # In case the current pipe (pipe in front of the bird) goes off-screen (i.e. x-coordinate <= 0),
             # remove the PipeSet (pipe) object from the PipeSet collection so the collection won't grow too much
             if self.pipes[0].x_coordinate <= self.pipes[0].pipe_width:
                 self.pipes.pop(0)

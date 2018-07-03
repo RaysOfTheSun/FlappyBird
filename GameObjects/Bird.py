@@ -32,9 +32,9 @@ class Bird:
         self.__sprite = self.__sprites[0]
 
         # Import sound effects
-        self.hit_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_hit.wav")))
-        self.flap_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_wing_flap.wav")))
-        self.death_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_die.wav")))
+        self.__hit_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_hit.wav")))
+        self.__flap_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_wing_flap.wav")))
+        self.__death_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_die.wav")))
 
         self.__colorPalette = ColorPalette()
 
@@ -42,7 +42,7 @@ class Bird:
 
         self.__pull = -14  # application will result into negative velocity
         self.__gravity = 1  # the force the pulls the bird downward
-        self.__velocity = 0  # dictates the speed and direction of the bird
+        self.__velocity = -2  # dictates the speed and direction of the bird
 
     @property
     def y_coordinate(self):
@@ -51,6 +51,18 @@ class Bird:
     @property
     def x_coordinate(self):
         return self.__x_coordinate
+
+    @property
+    def hit_sound(self):
+        return self.__hit_sound
+
+    @property
+    def death_sound(self):
+        return self.__death_sound
+
+    @property
+    def lower_limit(self):
+        return self.__lower_limit
 
     def to_canvas(self, canvas: pygame.Surface):
         """
@@ -86,7 +98,7 @@ class Bird:
         :return:
         """
         self.__sprite = self.__sprites[1]
-        self.flap_sound.play()
+        self.__flap_sound.play()
         if self.__y_coordinate > self.__upper_limit:
             self.__pull += 2
             self.__velocity += self.__pull
@@ -118,3 +130,10 @@ class Bird:
         :return:
         """
         self.__jumped = True
+
+    def reset(self):
+        """
+        Puts the bird back to its initial location
+        """
+        self.__x_coordinate = 60
+        self.__y_coordinate = self.canvas_height // 2

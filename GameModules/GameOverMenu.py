@@ -39,9 +39,9 @@ class GameOverMenu:
         self.best_header_surface = self.__title_font.render("Best:", False, self.__color_palette.orange)
 
         # Initialize prompt text
-        self.prompt_surface = self.__prompt_font.render("Press anything to play again", False,
+        self.prompt_surface = self.__prompt_font.render("Press the Y key to play again", False,
                                                         self.__color_palette.dark_golden_rod)
-        self.prompt_surface_shadow = self.__prompt_font.render("Press anything to play again", False,
+        self.prompt_surface_shadow = self.__prompt_font.render("Press the Y key to play again", False,
                                                                self.__color_palette.white_smoke)
 
     def to_canvas(self, canvas, score):
@@ -64,7 +64,7 @@ class GameOverMenu:
         pygame.draw.rect(canvas, self.__color_palette.pale_golden_rod, self.__background_rect)
 
         canvas.blit(self.score_header_surface, ((self.canvas_width // 5), (self.canvas_height // 2) - 120))
-        canvas.blit(self.best_header_surface, ((self.canvas_width // 5), (self.canvas_height // 2) - 50))
+        canvas.blit(self.best_header_surface, ((self.canvas_width // 5) + 40, (self.canvas_height // 2) - 50))
         canvas.blit(score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 120))
         canvas.blit(best_score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 50))
 

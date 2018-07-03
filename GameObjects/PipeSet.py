@@ -27,7 +27,6 @@ class PipeSet:
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
-        self.scroll_speed = 2  # How fast the pipes will move towards the bird
 
         self.calculate_dimensions()
 
@@ -86,11 +85,11 @@ class PipeSet:
         self.bottom_pipe_height = random.choice(range(max_height, self.canvas_height))
         self.top_pipe_height = random.choice(range(self.__passable_space_height, max_height))
 
-    def scroll(self):
+    def scroll(self, scroll_speed):
         """
         Gradually move the pipe towards the bird and off the screen
         """
-        self.__x_coordinate -= self.scroll_speed
+        self.__x_coordinate -= scroll_speed
 
     def collide(self, bird):
         """
