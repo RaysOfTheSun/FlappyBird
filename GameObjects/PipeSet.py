@@ -60,8 +60,10 @@ class PipeSet:
         top_pipe_body_dimensions = (self.__pipe_width, self.top_pipe_height)
 
         # Parameters for the bottom pipe
-        bottom_pipe_body_location = ((self.__x_coordinate - self.offset), self.bottom_pipe_height - self.offset)
-        bottom_pipe_head_location = ((self.__x_coordinate - self.offset), (self.bottom_pipe_height - self.offset))
+        bottom_pipe_body_location = ((self.__x_coordinate - self.offset), self.bottom_pipe_height - (self.offset -
+                                                                                                     self.offset * 2))
+        bottom_pipe_head_location = ((self.__x_coordinate - self.offset), (self.bottom_pipe_height - (self.offset -
+                                                                           self.offset * 2)))
         bottom_pipe_body_dimensions = (self.__pipe_width, self.bottom_pipe_height * 4)
 
         # Draw the top pipe
