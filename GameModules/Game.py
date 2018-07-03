@@ -125,6 +125,10 @@ class Game:
             self.frame_number = 0  # The frame counter is reset to prevent it from becoming too large
 
     def show_main_menu(self):
+        """
+        Draws the main menu text onto the canvas
+        :return:
+        """
         while not self.__play_game and self.__just_launched:
             self.clock.tick(60)
             self.frame_number += 1

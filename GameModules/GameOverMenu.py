@@ -50,8 +50,9 @@ class GameOverMenu:
         :param canvas: The surface wherein the game over menu is to be drawn on
         :param score: The player's final score
         """
-
+        self.__record_score(score)
         score_text_surface = self.__title_font.render(str(score), False, self.__color_palette.orange)
+        best_score_text_surface = self.__title_font.render(self.__get_best_score(), False, self.__color_palette.orange)
 
         canvas.blit(self.game_highlight_surface, ((self.canvas_width // 5) - 5, 150))
         canvas.blit(self.over_highlight_surface, ((self.canvas_width // 2) + 15, 150))
@@ -65,10 +66,32 @@ class GameOverMenu:
         canvas.blit(self.score_header_surface, ((self.canvas_width // 5), (self.canvas_height // 2) - 120))
         canvas.blit(self.best_header_surface, ((self.canvas_width // 5), (self.canvas_height // 2) - 50))
         canvas.blit(score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 120))
-        canvas.blit(score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 50))
+        canvas.blit(best_score_text_surface, ((self.canvas_width // 2) + 30, self.canvas_height // 2 - 50))
 
         # Draw the prompt text
         canvas.blit(self.prompt_surface_shadow, ((self.canvas_width // 8) - 5, (self.canvas_height // 2) + 100))
         canvas.blit(self.prompt_surface, ((self.canvas_width // 8), (self.canvas_height // 2) + 100))
 
+    def __record_score(self, score):
+        """
+        Writes the score to a simple text file \n
+        :param score:The player's final score
+        """
+        if int(self.__get_best_score()) < score:
+            with open('score.txt', 'w') as score_record:
+                score_record.write(str(score))
 
+    @staticmethod
+    def __get_best_score():
+        """
+        Retrieves the player's high score from the record
+        :return: A string representing the player's highest score
+        """
+        try:
+            with open('score.txt') as score_record:
+                t_score = score_record.readlines()
+            score = t_score[0].rstrip()
+        except IOError:
+            return "0"
+
+        return score

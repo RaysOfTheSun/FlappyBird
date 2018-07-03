@@ -78,6 +78,7 @@ class Bird:
         self.__sprite = self.__sprites[0]
         if self.__y_coordinate < self.__lower_limit:
             self.__velocity += self.__gravity
+            self.__pull = -14
 
     def __fly(self):
         """
@@ -87,6 +88,7 @@ class Bird:
         self.__sprite = self.__sprites[1]
         self.flap_sound.play()
         if self.__y_coordinate > self.__upper_limit:
+            self.__pull += 2
             self.__velocity += self.__pull
 
         self.__jumped = False
