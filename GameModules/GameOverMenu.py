@@ -48,7 +48,7 @@ class GameOverMenu:
         self.prompt_surface_shadow = self.__prompt_font.render("Press the Y key to play again", False,
                                                                self.__color_palette.white_smoke)
 
-    def to_canvas(self, canvas, score):
+    def title_and_score_to_canvas(self, canvas, score):
         """
         Draws the screen onto the specified canvas
         :param canvas: The surface wherein the game over menu is to be drawn on
@@ -62,10 +62,6 @@ class GameOverMenu:
 
         canvas.blit(self.game_title_surface, ((self.canvas_width // 5), 150))
         canvas.blit(self.over_title_surface, ((self.canvas_width // 2) + 20, 150))
-
-        # Draw the prompt text
-        canvas.blit(self.prompt_surface_shadow, ((self.canvas_width // 8) - 5, (self.canvas_height // 2) + 100))
-        canvas.blit(self.prompt_surface, ((self.canvas_width // 8), (self.canvas_height // 2) + 100))
 
         # scoreboard sprite parameters
         scoreboard_location = (self.canvas_height // 9, self.canvas_width // 2 - 50)
@@ -103,6 +99,15 @@ class GameOverMenu:
             self.__gold.to_canvas(canvas=canvas, location=medal_location, dimensions=medal_dimensions)
         elif score >= 80:
             self.__platinum.to_canvas(canvas=canvas, location=medal_location, dimensions=medal_dimensions)
+
+    def prompt_to_canvas(self, canvas):
+        """
+        Draws the instructions to the canvas
+        :param canvas: The surface wherein the prompt text is to be drawn on
+        """
+        # Draw the prompt text
+        canvas.blit(self.prompt_surface_shadow, ((self.canvas_width // 8) - 5, (self.canvas_height // 2) + 100))
+        canvas.blit(self.prompt_surface, ((self.canvas_width // 8), (self.canvas_height // 2) + 100))
 
     def __record_score(self, score):
         """

@@ -28,14 +28,20 @@ class Menu:
         self.prompt_surface = self.__prompt_font.render("Press anything to play", False, self.__color_palette.dark_golden_rod)
         self.prompt_surface_shadow = self.__prompt_font.render("Press anything to play", False, self.__color_palette.white_smoke)
 
-    def to_canvas(self, canvas):
+    def title_to_canvas(self, canvas):
         """
         Draws the menu to the specified canvas
+        :param canvas: The surface wherein the title text is to be drawn on
         """
         # Draw the title text
         canvas.blit(self.title_surface_shadow, ((self.canvas_width // 5) + self.shadow_offset, self.canvas_width // 2))
         canvas.blit(self.title_surface, (self.canvas_width // 5, self.canvas_width // 2))
 
+    def prompt_to_canvas(self, canvas):
+        """
+        Draws the instructions to the canvas
+        :param canvas: The surface wherein the prompt text is to be drawn on
+        """
         # Draw the prompt text
         canvas.blit(self.prompt_surface_shadow, ((self.canvas_width // 5) + 25, self.canvas_width // 2 + 80))
         canvas.blit(self.prompt_surface, ((self.canvas_width // 5) + 20, self.canvas_width // 2 + 80))

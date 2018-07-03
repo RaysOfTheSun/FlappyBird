@@ -34,7 +34,7 @@ class Game:
         self.pipes = [PipeSet()]
         self.menu_pipes = [PipeSet()]
 
-        self.menu = Menu(canvas_dimensions=self.screen_size)
+        self.main_menu_screen = Menu(canvas_dimensions=self.screen_size)
 
         self.player_points = 0
         self.scoreboard = Scoreboard(canvas_dimensions=self.screen_size)
@@ -184,7 +184,10 @@ class Game:
 
             self.ground.to_canvas(canvas=self.canvas)
 
-            self.menu.to_canvas(canvas=self.canvas)
+            self.main_menu_screen.title_to_canvas(canvas=self.canvas)
+
+            if self.frame_number <= 30:
+                self.main_menu_screen.prompt_to_canvas(canvas=self.canvas)
 
             pygame.display.flip()
 
@@ -221,7 +224,10 @@ class Game:
 
             self.ground.to_canvas(canvas=self.canvas)
 
-            self.game_over_screen.to_canvas(canvas=self.canvas, score=self.player_points)
+            self.game_over_screen.title_and_score_to_canvas(canvas=self.canvas, score=self.player_points)
+
+            if self.frame_number <= 30:
+                self.game_over_screen.prompt_to_canvas(canvas=self.canvas)
 
             pygame.display.flip()
 

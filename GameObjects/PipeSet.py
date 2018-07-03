@@ -41,8 +41,9 @@ class PipeSet:
     def to_canvas(self, canvas):
         """
         Draws the bird onto the specified canvas or surface \n
-        :param canvas: The surface wherein the bird is to be drawn on
+        :param canvas: The surface wherein the pipe set is to be drawn on
         """
+        # Maybe the commented code below will be useful :P
         # top pipe
         # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, 0),
         #                 (self.x_coordinate, self.top_pipe_height), self.pipe_width)
