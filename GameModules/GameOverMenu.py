@@ -56,6 +56,7 @@ class GameOverMenu:
         """
         self.__record_score(score)
 
+        # Draw the "Game Over" text
         canvas.blit(self.game_highlight_surface, ((self.canvas_width // 5) - 5, 150))
         canvas.blit(self.over_highlight_surface, ((self.canvas_width // 2) + 15, 150))
 
