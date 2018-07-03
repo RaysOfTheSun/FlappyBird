@@ -40,6 +40,7 @@ class Game:
         self.scoreboard = Scoreboard(canvas_dimensions=self.screen_size)
         self.game_over_screen = GameOverMenu(canvas_dimensions=self.screen_size)
 
+        # Game control flow manipulation variables
         self.__play_game = False
         self.__just_launched = True
         self.player_dead = False

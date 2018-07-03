@@ -42,7 +42,7 @@ class Bird:
 
         self.__pull = -14  # application will result into negative velocity
         self.__gravity = 1  # the force the pulls the bird downward
-        self.__velocity = -2  # dictates the speed and direction of the bird
+        self.__velocity = -5  # dictates the speed and direction of the bird
 
     @property
     def y_coordinate(self):
@@ -88,7 +88,7 @@ class Bird:
         Pushes the bird downward
         """
         self.__sprite = self.__sprites[0]
-        if self.__y_coordinate < self.__lower_limit:
+        if self.__y_coordinate != self.__lower_limit:
             self.__velocity += self.__gravity
             self.__pull = -14
 
