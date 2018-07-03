@@ -115,9 +115,6 @@ class Game:
                 self.show_game_over_screen()
                 self.reset_components()
 
-            if (self.player_points > 0 and self.player_points % 20 == 0) and (self.scroll_speed <= 4):
-                self.scroll_speed += 1
-
             print(f"FPS: {self.clock.get_fps()}")
 
         pygame.quit()
@@ -145,7 +142,7 @@ class Game:
         Lets the bird plunge into oblivion
         """
         self.bird.death_sound.play()
-        while (self.bird.y_coordinate != self.bird.lower_limit) or (self.frame_number % 40 != 0):
+        while (self.bird.y_coordinate != self.bird.lower_limit) or (self.frame_number % 20 != 0):
             self.clock.tick(60)
             self.frame_number += 1
 

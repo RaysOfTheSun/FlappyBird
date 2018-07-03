@@ -10,6 +10,7 @@ class ColorPalette:
         self.medium_sea_green = (60, 179, 113)
         self.yellow = (255, 255, 0)
         self.orange = (255, 165, 0)
+        self.dark_orange = (255, 140, 0)
         self.dark_golden_rod = (184, 134, 11)
         self.salmon = (250, 128, 114)
         self.pale_golden_rod = (238, 232, 170)
