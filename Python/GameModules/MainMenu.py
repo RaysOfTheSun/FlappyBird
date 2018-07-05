@@ -1,5 +1,5 @@
 import pygame
-from pathlib import PurePath, Path
+from pathlib import PurePath
 from Python.GameModules.ColorPalette import ColorPalette
 
 

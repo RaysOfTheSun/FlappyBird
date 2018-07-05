@@ -1,5 +1,5 @@
 import pygame
-from pathlib import PurePath, Path
+from pathlib import PurePath
 from Python.GameModules.MainMenu import Menu
 from Python.GameObjects.Bird import Bird
 from Python.GameObjects.PipeSet import PipeSet

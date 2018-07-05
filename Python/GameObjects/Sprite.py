@@ -1,5 +1,4 @@
 import pygame
-from pathlib import Path, PurePath
 
 
 class Sprite(pygame.sprite.Sprite):
