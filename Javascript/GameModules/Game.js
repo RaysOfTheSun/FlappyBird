@@ -1,17 +1,22 @@
 let bird;
 let pipeCollection;
 let playerPoints;
+let backdrop;
+let ground;
 
 function setup() {
     createCanvas(600, 800);
     bird = new Bird(100, height/2)
     pipeCollection = [new PipeSet()];
     playerPoints = 0;
+
+    ground = new Ground();
+    backdrop = new Backdrop(ground.offset);
     frameRate(60);
 }
 
 function draw() { 
-    background(0);   // Set the background to black
+    cleanCanvas();
 
     makePipes();
     for(let i = 0; i < pipeCollection.length; i++) {
@@ -31,6 +36,13 @@ function draw() {
     }
 
     bird.toCanvas();
+
+    ground.toCanvas();
+}
+
+function cleanCanvas() {
+    background(0);   // Set the background to black
+    backdrop.toCanvas()
 }
 
 function keyPressed() {
