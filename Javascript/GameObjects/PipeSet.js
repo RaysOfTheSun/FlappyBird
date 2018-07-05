@@ -19,9 +19,10 @@ class PipeSet {
 
     // Calculates the height and gap between the two pipes in the pipe set
     calculateDimensions() {
-        let maxHeight = Math.abs((height / 2) - (this.passableSpaceHeight * 4));
-        this.bottomPipeHeight = random(maxHeight, height);
-        this.topPipeHeight = random(this.passableSpaceHeight, maxHeight)
+        let maxHeight = Math.abs((height / 2) - this.passableSpaceHeight * 4);
+        // max defines how small the bottom pipe would be since this one grows from top to bottom
+        this.bottomPipeHeight = this.getRandom(maxHeight, height - maxHeight);
+        this.topPipeHeight = this.getRandom(this.passableSpaceHeight, maxHeight);        
     }
 
     // Gradually move the pipe towards the bird and off the screen
@@ -48,12 +49,10 @@ class PipeSet {
 
         // Bottom pipe body parameters
         let bottomPipeBody_xCoordinate = (this.x_coordinate - this.offSet);
-        let bottomPipeBody_yCoordinate = (this.bottomPipeHeight - (this.offSet - 
-            this.offSet * 2));
+        let bottomPipeBody_yCoordinate = this.bottomPipeHeight + this.offSet;
         // Bottom pipe head paramters
         let bottomPipeHead_xCoordinate = (this.x_coordinate - this.offSet);
-        let bottomPipeHead_yCoordinate = (this.bottomPipeHeight - (this.offSet - 
-            this.offSet * 2));
+        let bottomPipeHead_yCoordinate = (this.bottomPipeHeight + this.offSet);
         // Bottom pipe dimensions
         let d_bottomPipeWidth = this.pipeWidth;
         let d_bottomPipeHeight = this.bottomPipeHeight * 4;
@@ -71,11 +70,12 @@ class PipeSet {
             pipeHeadHeight, pipeHeadWidth);
     }
 
-    // Determines whether the bird had collided with either of the 
-    // two pipes in the pipe set
-    // [bird]: The bird object that the player controls in the game
-    // [RETURNS]: True if the bird had collided with of any of the pipes
-    // in the pipe set
+    /* Determines whether the bird had collided with either of the 
+    two pipes in the pipe set
+    [bird]: The bird object that the player controls in the game
+    [RETURNS]: True if the bird had collided with of any of the pipes
+    in the pipe set 
+    */
     collide(bird) {
         let bird_in_contact = ((this.x_coordinate - this.pipeWidth) - 
             bird.x_coordinate) <= 0; 
@@ -97,18 +97,21 @@ class PipeSet {
 
     isCleared(bird) {
         let midPoint_x = (this.x_coordinate + bird.x_coordinate) / 2;
-        let midPoint_y = (this.y_coordinate + bird.y_coordinate) / 2;
+        let midPoint_y = (this.topPipeHeight + this.bottomPipeHeight) / 2;
 
         if (((bird.x_coordinate == midPoint_x) && (bird.y_coordinate >= midPoint_y))
                 || ((bird.x_coordinate == midPoint_x) && bird.y_coordinate <= midPoint_y)) {
-                    return true;
+                return true;
             }
             else {
                 return false;
             }
     }
 
-
-
-
+    /*
+        Returns a random number between the given intervals min and max
+    */
+    getRandom(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 }

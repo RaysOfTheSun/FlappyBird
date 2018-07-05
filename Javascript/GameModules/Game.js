@@ -16,6 +16,9 @@ function setup() {
 }
 
 function draw() { 
+
+    // erase everything in the canvas before redrawing so 
+    // new stuff won't overlap with old stuff
     cleanCanvas();
 
     makePipes();
@@ -29,10 +32,11 @@ function draw() {
     }
 
     if (pipeCollection[0].collide(bird)) {
-        console.log("FALL!");
+        console.log("hit!");
     }
     else if (pipeCollection[0].isCleared(bird)) {
         playerPoints += 1;
+        print(playerPoints);
     }
 
     bird.toCanvas();
