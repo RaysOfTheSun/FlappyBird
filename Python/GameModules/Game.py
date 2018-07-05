@@ -1,13 +1,13 @@
 import pygame
-from pathlib import PurePath
-from GameModules.MainMenu import Menu
-from GameObjects.Bird import Bird
-from GameObjects.PipeSet import PipeSet
-from WorldObjects.Ground import Ground
-from WorldObjects.Backdrop import Backdrop
-from WorldObjects.Scoreboard import Scoreboard
-from GameModules.GameOverMenu import GameOverMenu
-from GameModules.ColorPalette import ColorPalette
+from pathlib import PurePath, Path
+from Python.GameModules.MainMenu import Menu
+from Python.GameObjects.Bird import Bird
+from Python.GameObjects.PipeSet import PipeSet
+from Python.WorldObjects.Ground import Ground
+from Python.WorldObjects.Backdrop import Backdrop
+from Python.WorldObjects.Scoreboard import Scoreboard
+from Python.GameModules.GameOverMenu import GameOverMenu
+from Python.GameModules.ColorPalette import ColorPalette
 
 
 class Game:
@@ -51,7 +51,8 @@ class Game:
         """
         Constructs the surface for the window's icon
         """
-        icon = pygame.image.load(str(PurePath("res/Images/bird_wing_down.png")))
+        image_root = str(Path(__file__).parents[2])
+        icon = pygame.image.load(str(PurePath(f"{image_root}/res/Images/bird_wing_down.png")))
         return icon
 
     def clean_canvas(self):

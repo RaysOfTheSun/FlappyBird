@@ -1,8 +1,7 @@
-import pygame
-import random
+import pygame, random
 from pathlib import PurePath
-from GameModules.ColorPalette import ColorPalette
-from GameObjects.Sprite import Sprite
+from Python.GameModules.ColorPalette import ColorPalette
+from Python.GameObjects.Sprite import Sprite
 
 
 class PipeSet:

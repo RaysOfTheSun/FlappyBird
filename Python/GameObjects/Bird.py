@@ -1,7 +1,7 @@
 import pygame
-from pathlib import PurePath
-from GameModules.ColorPalette import ColorPalette
-from GameObjects.Sprite import Sprite
+from pathlib import PurePath, Path
+from Python.GameModules.ColorPalette import ColorPalette
+from Python.GameObjects.Sprite import Sprite
 
 
 class Bird:
@@ -16,6 +16,8 @@ class Bird:
         self.__x_coordinate = x_coord
         self.__y_coordinate = y_coord
         self.ground_offset = ground_offset
+
+        image_root = str(Path(__file__).parents[2])
 
         # We need the height and width of the canvas for error handling purposes
         self.__canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
@@ -32,9 +34,9 @@ class Bird:
         self.__sprite = self.__sprites[0]
 
         # Import sound effects
-        self.__hit_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_hit.wav")))
-        self.__flap_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_wing_flap.wav")))
-        self.__death_sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_die.wav")))
+        self.__hit_sound = pygame.mixer.Sound(str(PurePath(f"{image_root}/res/sounds/sfx_hit.wav")))
+        self.__flap_sound = pygame.mixer.Sound(str(PurePath(f"{image_root}/res/sounds/sfx_wing_flap.wav")))
+        self.__death_sound = pygame.mixer.Sound(str(PurePath(f"{image_root}/res/sounds/sfx_die.wav")))
 
         self.__colorPalette = ColorPalette()
 
