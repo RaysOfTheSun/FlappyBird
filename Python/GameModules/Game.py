@@ -51,8 +51,7 @@ class Game:
         """
         Constructs the surface for the window's icon
         """
-        image_root = str(Path(__file__).parents[2])
-        icon = pygame.image.load(str(PurePath(f"{image_root}/res/Images/bird_wing_down.png")))
+        icon = pygame.image.load(str(PurePath("res/Images/bird_wing_down.png")))
         return icon
 
     def clean_canvas(self):

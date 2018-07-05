@@ -13,11 +13,9 @@ class Scoreboard:
         :param canvas_dimensions: A tuple containing the width and height of the canvas or surface where the
         scoreboard is to be drawn
         """
-        resource_root_directory = f"{str(Path(__file__).parents[2])}"
-
         # Effects
-        self.__font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 70)
-        self.__sound = pygame.mixer.Sound(str(PurePath(f"{resource_root_directory}/res/sounds/sfx_point.wav")))
+        self.__font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 70)
+        self.__sound = pygame.mixer.Sound(str(PurePath("res/sounds/sfx_point.wav")))
 
         self.__color_palette = ColorPalette()
         self.__canvas_width, self.canvas_height = canvas_dimensions

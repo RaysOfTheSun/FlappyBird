@@ -12,14 +12,12 @@ class Sprite(pygame.sprite.Sprite):
         :param image_file: The path to the image that will visually represent the sprite
         """
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
-        resource_root_director = f"{str(Path(__file__).parents[2])}"
-        self.__image_path = f"{resource_root_director}/{image_file}"
-        self.__image = pygame.image.load(self.__image_path).convert_alpha()  # Make blitting easier
+        self.__image = pygame.image.load(image_file).convert_alpha()  # Make blitting easier
 
     def to_canvas(self, canvas, location, dimensions=None):
         """
         Draws the image onto the specified canvas or surface \n
-        :param canvas: The surface wherein the bird is to be drawn on
+        :param canvas: The surface wherein the sprite is to be drawn on
         :param location: The x and y coordinates of the area where the image is to be drawn on
         :param dimensions: The desired width and height of the image
         """

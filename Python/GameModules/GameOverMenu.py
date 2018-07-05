@@ -16,16 +16,15 @@ class GameOverMenu:
         """
         self.__color_palette = ColorPalette()
         self.frame_number = 0
-        resource_root_directory = f"{str(Path(__file__).parents[2])}"
 
         self.canvas_width, self.canvas_height = canvas_dimensions
 
         # Import resources
-        self.__title_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 65)
-        self.__highlight_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 70)
-        self.__outline_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 75)
-        self.__score_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 35)
-        self.__prompt_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 30)
+        self.__title_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 65)
+        self.__highlight_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 70)
+        self.__outline_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 75)
+        self.__score_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 35)
+        self.__prompt_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 30)
 
         # Initialize medals
         self.__bronze = Sprite(str(PurePath("res/Images/bronze.png")))

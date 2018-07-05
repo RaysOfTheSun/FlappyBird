@@ -10,9 +10,6 @@ class Menu:
         :param canvas_dimensions: A width x height tuple representing the dimensions of the canvas wherein the
         menu is to be drawn
         """
-
-        resource_root_directory = f"{str(Path(__file__).parents[2])}"
-
         self.__color_palette = ColorPalette()
         self.frame_number = 0
 
@@ -20,8 +17,8 @@ class Menu:
         self.shadow_offset = 8
 
         # Import resources
-        self.__title_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 70)
-        self.__prompt_font = pygame.font.Font(str(PurePath(f"{resource_root_directory}/res/Fonts/04B_19.TTF")), 30)
+        self.__title_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 70)
+        self.__prompt_font = pygame.font.Font(str(PurePath("res/Fonts/04B_19.TTF")), 30)
 
         # Initialize title text
         self.title_surface = self.__title_font.render("Flappy Bird", False, self.__color_palette.medium_sea_green)
