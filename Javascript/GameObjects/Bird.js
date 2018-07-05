@@ -26,7 +26,6 @@ class Bird {
     }
 
     // Draws the bird onto the specified canvas or surface
-    // [canvas]: The surface wherein the bird is to be drawn on
     toCanvas() {
 
         if (this.jumped) {
@@ -42,13 +41,14 @@ class Bird {
             this.birdWidth, this.birdWidth);
     }
 
+    // Pushes the bird downward
     fall() {
         if (this.y_coordinate != this.lowerLimit) {
             this.velocity += this.gravity;
             this.pull = -14;
         }
     }
-
+    // Pushes the bird upward
     fly() {
         if (this.y_coordinate > this.upperLimit) { 
             this.pull += 2;
@@ -58,6 +58,8 @@ class Bird {
         this.jumped = false;
     }
 
+    // Updates the position of the bird and also restricts it to within 
+    // the visible area of the canvas
     updatePosition() {
         if ((this.y_coordinate <= 1) && (!this.jumped)) {
             this.y_coordinate = this.upperLimit;
@@ -72,10 +74,12 @@ class Bird {
         }
     }
 
+    // Activate the bird object's flight mechanism
     jump() {
         this.jumped = true;
     }
 
+    // Puts the bird back to its initial location
     reset() {
         this.x_coordinate = 60;
         this.y_coordinate = height / 2;
