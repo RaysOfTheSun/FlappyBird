@@ -4,7 +4,7 @@ class PipeSet {
     // Initializes a new instance of the PipeSet class
     constructor() {
         this.x_coordinate =  innerWidth;
-        this.pipeWidth = 60;
+        this.pipeWidth = 80;
         this.passableSpaceHeight = this.pipeWidth;
         this.offSet = this.pipeWidth / 2;
 
@@ -13,6 +13,7 @@ class PipeSet {
 
         this.topPipeHeight = 0;
         this.bottomPipeHeight = 0;
+        this.cleared = false;
 
         this.calculateDimensions();
     }
@@ -81,13 +82,15 @@ class PipeSet {
             bird.x_coordinate) <= 0; 
         let midPoint_y = ((this.topPipeHeight + this.bottomPipeHeight) / 2) - 
             this.pipeWidth;
+        let isOverPipes = 
+            (
+                ((bird.y_coordinate <= this.topPipeHeight) 
+                && (bird.y_coordinate < midPoint_y)) ||
+                ((bird.y_coordinate >= this.bottomPipeHeight)
+                && (bird.y_coordinate > midPoint_y))
+            );
         
-        if (
-            (bird_in_contact && ((bird.y_coordinate <= this.topPipeHeight) && 
-                bird.y_coordinate < midPoint_y)) ||
-            (bird_in_contact && ((bird.y_coordinate >= this.bottomPipeHeight) && 
-                bird.y_coordinate > midPoint_y))
-            ) {
+        if (bird_in_contact && isOverPipes) {
                 return true;
             }
             else {
@@ -95,17 +98,21 @@ class PipeSet {
             }
     }
 
-    isCleared(bird) {
-        let midPoint_x = (this.x_coordinate + bird.x_coordinate) / 2;
-        let midPoint_y = (this.topPipeHeight + this.bottomPipeHeight) / 2;
+    isCleared(bird) {        
+        let isPastPipes = bird.x_coordinate > this.x_coordinate;
+        let isInBetweenPipes = 
+            (
+                (bird.y_coordinate > this.topPipeHeight) ||
+                (bird.y_coordinate < this.bottomPipeHeight)
+            );
 
-        if (((bird.x_coordinate == midPoint_x) && (bird.y_coordinate >= midPoint_y))
-                || ((bird.x_coordinate == midPoint_x) && bird.y_coordinate <= midPoint_y)) {
-                return true;
-            }
-            else {
-                return false;
-            }
+        if (!this.cleared && (isPastPipes && isInBetweenPipes)) {
+            this.cleared = true;
+            return this.cleared;
+        }
+        else {
+            return false;
+        }
     }
 
     /*

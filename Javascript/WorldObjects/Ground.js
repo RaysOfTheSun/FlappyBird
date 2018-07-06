@@ -6,7 +6,7 @@ class Ground {
 
         this.xCoordinate = 0;
         this.yCoordinate = innerHeight - this.offset;
-        this.width = innerHeight - this.offset;
+        this.width = innerWidth;
         this.height = this.offset;
 
         this.sprite = new Sprite("res/Images/ground.png");

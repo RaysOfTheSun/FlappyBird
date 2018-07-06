@@ -12,7 +12,7 @@ class Bird {
         this.x_coordinate = x_coordinate;
         this.y_coordinate = y_coordinate;
 
-        this.birdWidth = 40; // Determines the height and width of the bird
+        this.birdWidth = 55; // Determines the height and width of the bird
         this.pull = -14; // application will result into negative velocity
         this.gravity = 1; // the force the pulls the bird downward
         this.velocity = -2; // dictates the speed and direction of the bird
@@ -22,6 +22,7 @@ class Bird {
         this.lowerLimit = (innerHeight - this.birdWidth) - this.ground_offset;
 
         this.sprites = new Sprite("res/Images/bird_wing_down.png");
+        this.flapSound = loadSound("res/sounds/sfx_wing_flap.wav");
         this.jumped = false;
     }
 
@@ -37,8 +38,7 @@ class Bird {
 
         this.updatePosition();
 
-        this.sprites.toCanvas(this.x_coordinate, this.y_coordinate, 
-            this.birdWidth, this.birdWidth);
+        this.sprites.toCanvas(this.x_coordinate, this.y_coordinate);
     }
 
     // Pushes the bird downward
@@ -53,6 +53,7 @@ class Bird {
         if (this.y_coordinate > this.upperLimit) { 
             this.pull += 2;
             this.velocity += this.pull;
+            this.flapSound.play();
         }
 
         this.jumped = false;

@@ -7,21 +7,20 @@ let scoreboard;
 let flappybirdFont;
 
 function preload() {
-    flappybirdFont = loadFont("res/Fonts/04B_19.ttf");
+    flappybirdFont = loadFont("./res/Fonts/04B_19.TTF");
+    ground = new Ground();
+    backdrop = new Backdrop(ground.offset);
+    bird = new Bird(ground.offset, innerWidth/2);
 }
 
 function setup() {
     createCanvas(innerWidth, innerHeight);
+    scoreboard = new Scoreboard();
     pipeCollection = [new PipeSet()];
     playerPoints = 0;
-
-    ground = new Ground();
-    backdrop = new Backdrop(ground.offset);
-    bird = new Bird(ground.offset, innerWidth/2)
-    scoreboard = new Scoreboard();
-
-    textFont(flappybirdFont);
+    
     frameRate(60);
+    textFont(flappybirdFont, 100);
 }
 
 function draw() { 
@@ -45,6 +44,7 @@ function draw() {
     }
     else if (pipeCollection[0].isCleared(bird)) {
         playerPoints += 1;
+        scoreboard.buzz();
     }
 
     scoreboard.toCanvas(playerPoints);
@@ -65,6 +65,11 @@ function keyPressed() {
 
 function mouseClicked() {
     bird.jump();
+}
+
+function touchStarted() {
+    bird.jump();
+    return false;
 }
 
 // Creates a new PipeSet object that will serve as an obstacle in the game
