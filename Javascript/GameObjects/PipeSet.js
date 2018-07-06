@@ -3,7 +3,7 @@ class PipeSet {
 
     // Initializes a new instance of the PipeSet class
     constructor() {
-        this.x_coordinate = height;
+        this.x_coordinate =  innerWidth;
         this.pipeWidth = 60;
         this.passableSpaceHeight = this.pipeWidth;
         this.offSet = this.pipeWidth / 2;
@@ -19,9 +19,9 @@ class PipeSet {
 
     // Calculates the height and gap between the two pipes in the pipe set
     calculateDimensions() {
-        let maxHeight = Math.abs((height / 2) - this.passableSpaceHeight * 4);
+        let maxHeight = Math.abs((innerHeight / 2) - this.passableSpaceHeight * 4);
         // max defines how small the bottom pipe would be since this one grows from top to bottom
-        this.bottomPipeHeight = this.getRandom(maxHeight, height - maxHeight);
+        this.bottomPipeHeight = this.getRandom(maxHeight, innerHeight - maxHeight);
         this.topPipeHeight = this.getRandom(this.passableSpaceHeight, maxHeight);        
     }
 

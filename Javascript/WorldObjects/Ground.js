@@ -5,8 +5,8 @@ class Ground {
         this.offset = 100;
 
         this.xCoordinate = 0;
-        this.yCoordinate = height - this.offset;
-        this.width = height - this.offset;
+        this.yCoordinate = innerHeight - this.offset;
+        this.width = innerHeight - this.offset;
         this.height = this.offset;
 
         this.sprite = new Sprite("res/Images/ground.png");

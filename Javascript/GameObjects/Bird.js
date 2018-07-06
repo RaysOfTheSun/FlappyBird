@@ -18,8 +18,8 @@ class Bird {
         this.velocity = -2; // dictates the speed and direction of the bird
 
         // The bird should now go over the upper and lower bounds of the canvas
-        this.upperLimit = height / this.birdWidth;
-        this.lowerLimit = (height - this.birdWidth) - this.ground_offset;
+        this.upperLimit = innerHeight / this.birdWidth;
+        this.lowerLimit = (innerHeight - this.birdWidth) - this.ground_offset;
 
         this.sprites = new Sprite("res/Images/bird_wing_down.png");
         this.jumped = false;
@@ -65,7 +65,7 @@ class Bird {
             this.y_coordinate = this.upperLimit;
             this.velocity = 0;
         }
-        else if ((this.y_coordinate >= (height - this.ground_offset))) {
+        else if ((this.y_coordinate >= (innerHeight - this.ground_offset))) {
             this.y_coordinate = this.lowerLimit;
             this.velocity = 0;
         }
@@ -82,9 +82,6 @@ class Bird {
     // Puts the bird back to its initial location
     reset() {
         this.x_coordinate = 60;
-        this.y_coordinate = height / 2;
+        this.y_coordinate = innerHeight / 2;
     }
-
-
-
 }

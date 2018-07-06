@@ -3,15 +3,24 @@ let pipeCollection;
 let playerPoints;
 let backdrop;
 let ground;
+let scoreboard;
+let flappybirdFont;
+
+function preload() {
+    flappybirdFont = loadFont("res/Fonts/04B_19.ttf");
+}
 
 function setup() {
-    createCanvas(600, 800);
-    bird = new Bird(100, height/2)
+    createCanvas(innerWidth, innerHeight);
     pipeCollection = [new PipeSet()];
     playerPoints = 0;
 
     ground = new Ground();
     backdrop = new Backdrop(ground.offset);
+    bird = new Bird(ground.offset, innerWidth/2)
+    scoreboard = new Scoreboard();
+
+    textFont(flappybirdFont);
     frameRate(60);
 }
 
@@ -24,7 +33,7 @@ function draw() {
     makePipes();
     for(let i = 0; i < pipeCollection.length; i++) {
         pipeCollection[i].toCanvas();
-        pipeCollection[i].scroll();
+        pipeCollection[i].scroll(3);
     }
 
     if (pipeCollection[0].x_coordinate <= 0) {
@@ -32,12 +41,13 @@ function draw() {
     }
 
     if (pipeCollection[0].collide(bird)) {
-        console.log("hit!");
+        print("hit!")
     }
     else if (pipeCollection[0].isCleared(bird)) {
         playerPoints += 1;
-        print(playerPoints);
     }
+
+    scoreboard.toCanvas(playerPoints);
 
     bird.toCanvas();
 
@@ -45,7 +55,7 @@ function draw() {
 }
 
 function cleanCanvas() {
-    background(0);   // Set the background to black
+    background("#71C5CF");   // Set the background to some shade of blue
     backdrop.toCanvas()
 }
 
@@ -53,9 +63,13 @@ function keyPressed() {
     bird.jump();
 }
 
+function mouseClicked() {
+    bird.jump();
+}
+
 // Creates a new PipeSet object that will serve as an obstacle in the game
 function makePipes() {
-    if (frameCount % 60 == 0) {
+    if (frameCount % 80 == 0) {
         pipeCollection.push(new PipeSet());
     }
 }

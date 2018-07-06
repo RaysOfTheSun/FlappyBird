@@ -8,7 +8,7 @@ class Backdrop {
         this.sprite = new Sprite("res/Images/background.png");
         
         this.xCoordinate = 0;
-        this.yCoordinate = -this.offset;
+        this.yCoordinate = innerHeight - (this.offset*4);
     }
 
     // Draws the backdrop onto the specified canvas or surface 
