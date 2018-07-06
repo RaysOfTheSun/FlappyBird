@@ -1,5 +1,6 @@
 # FlappyBird
 * This is a reacreation of the game [`Flappy Bird`](https://en.wikipedia.org/wiki/Flappy_Bird) by [`.GEARS`](https://www.dotgears.com/).
+* Can be played using a web browser. [`Play now!`](https://raysofthesun.github.io/FlappyBird/) 
 * The game was coded in both __Python__ and __JavaScript__.
 * The source code for the JavaScript port can be found in the __docs__ folder. While, on the other hand, the Python source code can be found in the __Python__ folder.
 # Notes
