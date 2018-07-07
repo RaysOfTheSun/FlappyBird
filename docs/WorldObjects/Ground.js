@@ -1,4 +1,7 @@
-// The ground of the game world
+/**
+ * The game world's in-game lower boundary.s
+ * @class Ground
+ */
 class Ground {
     // Initializes a new instance of the Ground class
     constructor() {

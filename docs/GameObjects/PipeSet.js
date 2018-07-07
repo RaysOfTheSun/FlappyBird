@@ -1,7 +1,13 @@
-// Represents an obstacle in the game
+/**
+ * Represents an in-game obstacle
+ * @class PipeSet
+ */
 class PipeSet {
 
-    // Initializes a new instance of the PipeSet class
+    /**
+     * Creates an instance of PipeSet.
+     * @memberof PipeSet
+     */
     constructor() {
         this.x_coordinate =  innerWidth;
         this.pipeWidth = 80;
@@ -18,7 +24,10 @@ class PipeSet {
         this.calculateDimensions();
     }
 
-    // Calculates the height and gap between the two pipes in the pipe set
+    /**
+     * Calculates the height and gap between the two pipes in the pipe set
+     * @memberof PipeSet
+     */
     calculateDimensions() {
         let maxHeight = Math.abs((innerHeight / 2) - this.passableSpaceHeight * 4);
         // max defines how small the bottom pipe would be since this one grows from top to bottom
@@ -26,12 +35,20 @@ class PipeSet {
         this.topPipeHeight = this.getRandom(this.passableSpaceHeight, maxHeight);        
     }
 
-    // Gradually move the pipe towards the bird and off the screen
+
+    /**
+     * Gradually move the pipe set towards the bird and off the screen
+     * @param {number} [scrollSpeed=2] How fast the pipe set will go towards the bird
+     * @memberof PipeSet
+     */
     scroll(scrollSpeed=2) {
         this.x_coordinate -= scrollSpeed;
     }
 
-    // Draws the bird onto the specified canvas or surface
+    /**
+     * Draws the object's sprite onto the canvas
+     * @memberof PipeSet
+     */
     toCanvas() {
 
         // Pipe head parameters
@@ -71,12 +88,13 @@ class PipeSet {
             pipeHeadHeight, pipeHeadWidth);
     }
 
-    /* Determines whether the bird had collided with either of the 
-    two pipes in the pipe set
-    [bird]: The bird object that the player controls in the game
-    [RETURNS]: True if the bird had collided with of any of the pipes
-    in the pipe set 
-    */
+    /**
+     * Determine whether the bird has hit any of the pipes in the pipe set.
+     * @param {Bird} bird the instance of the bird class in the game world.
+     * @returns A boolean value based on whether the bird had hit (true) any of the pipes
+     *          or not (false).
+     * @memberof PipeSet
+     */
     collide(bird) {
         let bird_in_contact = ((this.x_coordinate - this.pipeWidth) - 
             bird.x_coordinate) <= 0; 
@@ -98,6 +116,15 @@ class PipeSet {
             }
     }
 
+    /**
+     * Determine whether the bird has successfully passed through the open space
+     * in-between the two pipes in the pipe set.
+     * 
+     * @param {Bird} bird the instance of the bird class in the game world.
+     * @returns A boolean value based on whether the bird had successfully passed through
+     *          the two pipes (true) or not (false).
+     * @memberof PipeSet
+     */
     isCleared(bird) {        
         let isPastPipes = bird.x_coordinate > this.x_coordinate;
         let isInBetweenPipes = 
@@ -115,9 +142,25 @@ class PipeSet {
         }
     }
 
-    /*
-        Returns a random number between the given intervals min and max
-    */
+
+    /**
+     * Reconstruct the pipes in the pipe set.
+     * @memberof PipeSet
+     */
+    reconstruct() {
+        this.x_coordinate = innerWidth;
+        this.calculateDimensions();
+        this.cleared = false;
+    }
+
+    /**
+     * Returns a random number between the given intervals min and max.
+     *
+     * @param {Number} min the lower bound of the selection (exclusive).
+     * @param {Number} max the upper bound of the selection (inclusive).
+     * @returns a random Number in-between the given boundaries.
+     * @memberof PipeSet
+     */
     getRandom(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }

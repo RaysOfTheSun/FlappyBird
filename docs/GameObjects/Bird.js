@@ -1,12 +1,17 @@
+/**
+ * Represents FlappyBird in the game world
+ *
+ * @class Bird
+ */
 class Bird {
-    // Represents the characteristics and functionalities of a bird
-    // in the game
-
-    // Initializes a new instance of the Bird class
-    // [ground_offset]: The The distance from the bottom of the canvas 
-    // to the top of the ground in the game world
-    // [y_coordinate]: The position of the bird on the y-axis
-    // [x_coordinate]: The position of the bird on the x-axis
+    /**
+     * Creates an instance of Bird.
+     * @param {Number} ground_offset The height of the ground in the game world.
+     * @param {Number} y_coordinate The position of the bird relative to the y-axis.
+     * @param {number} [x_coordinate=60] The position of the bird relative to the 
+     *                                   x-axis.
+     * @memberof Bird
+     */
     constructor(ground_offset, y_coordinate, x_coordinate = 60) {
         this.ground_offset = ground_offset;
         this.x_coordinate = x_coordinate;
@@ -17,7 +22,7 @@ class Bird {
         this.gravity = 1; // the force the pulls the bird downward
         this.velocity = -2; // dictates the speed and direction of the bird
 
-        // The bird should now go over the upper and lower bounds of the canvas
+        // The bird should not go over the upper and lower bounds of the canvas
         this.upperLimit = innerHeight / this.birdWidth;
         this.lowerLimit = (innerHeight - this.birdWidth) - this.ground_offset;
 
@@ -26,7 +31,10 @@ class Bird {
         this.jumped = false;
     }
 
-    // Draws the bird onto the specified canvas or surface
+    /**
+     * Draws the object's sprite onto the canvas.
+     * @memberof Bird
+     */
     toCanvas() {
 
         if (this.jumped) {
@@ -41,14 +49,22 @@ class Bird {
         this.sprites.toCanvas(this.x_coordinate, this.y_coordinate);
     }
 
-    // Pushes the bird downward
+    /**
+     * Push the bird towards the ground or the lower boundary of the canvas.
+     * @memberof Bird
+     */
     fall() {
         if (this.y_coordinate != this.lowerLimit) {
             this.velocity += this.gravity;
             this.pull = -14;
         }
     }
-    // Pushes the bird upward
+
+
+    /**
+     * Push the bird towards the upper boundary of the canvas.
+     * @memberof Bird
+     */
     fly() {
         if (this.y_coordinate > this.upperLimit) { 
             this.pull += 2;
@@ -59,8 +75,11 @@ class Bird {
         this.jumped = false;
     }
 
-    // Updates the position of the bird and also restricts it to within 
-    // the visible area of the canvas
+
+    /**
+     * Apply a push or pull force to the bird.
+     * @memberof Bird
+     */
     updatePosition() {
         if ((this.y_coordinate <= 1) && (!this.jumped)) {
             this.y_coordinate = this.upperLimit;
@@ -75,12 +94,19 @@ class Bird {
         }
     }
 
-    // Activate the bird object's flight mechanism
+    /**
+     * Activate the bird object's flight mechanism.
+     * @memberof Bird
+     */
     jump() {
         this.jumped = true;
     }
 
-    // Puts the bird back to its initial location
+
+    /**
+     * Reinitializes the bird's x and y coordinates.
+     * @memberof Bird
+     */
     reset() {
         this.x_coordinate = 60;
         this.y_coordinate = innerHeight / 2;

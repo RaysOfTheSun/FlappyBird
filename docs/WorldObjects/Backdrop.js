@@ -1,8 +1,13 @@
-// The background of the game world
+/**
+ * The game world's background.
+ * @class Backdrop
+ */
 class Backdrop {
-    // Initializes a new instance of the Backdrop class
-    // [ground_offset]: The offset value of the ground object in the 
-    // canvas wherein the backdrop is to be drawn
+    /**
+     * Creates an instance of Backdrop.
+     * @param {Number} ground_offset The height of the game world's ground
+     * @memberof Backdrop
+     */
     constructor(ground_offset) {
         this.offset = ground_offset;
         this.sprite = new Sprite("res/Images/background.png");
@@ -11,7 +16,10 @@ class Backdrop {
         this.yCoordinate = innerHeight - (this.offset*4);
     }
 
-    // Draws the backdrop onto the specified canvas or surface 
+    /**
+     * Draws the object's sprite onto the canvas.
+     * @memberof Backdrop
+     */
     toCanvas() {
         this.sprite.toCanvas(this.xCoordinate, this.yCoordinate);
     }

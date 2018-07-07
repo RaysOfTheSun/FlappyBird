@@ -1,12 +1,20 @@
-let bird;
-let pipeCollection;
-let playerPoints;
-let backdrop;
-let ground;
-let scoreboard;
-let flappybirdFont;
-let currentPipe;
+let flappybirdFont; /* the font to be used in rendering text anywhere in the
+                    game world */
+
+let backdrop; // the game world's background
+let ground; // the game world's visual lower boundary
+let scoreboard; /* the number in the middle upper part of the screen
+                showing the player's score */
+
+let bird; // Flappy Bird
+let pipeCollection; // The array where the obstacles in the game are stored
+let currentPipe; // the pipeSet object that is directly infront of the bird object
 let hasPipeInQueueForShift;
+let maxNumberOfPipes;
+
+
+let isPlayerDead;
+let playerPoints; // The number of points the user has earned
 
 function preload() {
     flappybirdFont = loadFont("./res/Fonts/04B_19.TTF");
@@ -18,8 +26,11 @@ function preload() {
 function setup() {
     
     createCanvas(innerWidth, innerHeight);
-    scoreboard = new Scoreboard();
     
+    maxNumberOfPipes = (Math.floor(innerWidth / 80) / 3);
+    isPlayerDead = false;
+
+    scoreboard = new Scoreboard();
     pipeCollection = [new PipeSet()];
     currentPipe = pipeCollection[0];
 
@@ -31,8 +42,6 @@ function setup() {
 
 function draw() { 
 
-    // erase everything in the canvas before redrawing so 
-    // new stuff won't overlap with old stuff
     cleanCanvas();
 
     makePipes();
@@ -47,7 +56,7 @@ function draw() {
     }
 
     if (pipeCollection[0].collide(bird)) {
-        print("hit!")
+        isPlayerDead = true; // This has no effect yet
     }
     else if (pipeCollection[0].isCleared(bird)) {
         playerPoints += 1;
@@ -61,6 +70,10 @@ function draw() {
     ground.toCanvas();
 }
 
+
+/**
+ * Remove all previously drawn elements in the canvas.
+ */
 function cleanCanvas() {
     background("#71C5CF");   // Set the background to some shade of blue
     backdrop.toCanvas()
@@ -76,30 +89,32 @@ function mouseClicked() {
 
 function touchStarted() {
     bird.jump();
-    return false;
+    return false; /* prevent the browser's default multiple tap action from
+                  occuring */
 }
 
-// Creates a new PipeSet object that will serve as an obstacle in the game
+/**
+ * Create a new pipe set that would serve as an obstacle in the game world.
+ */
 function makePipes() {
-    print(pipeCollection.length);
-    if ((frameCount % 80 == 0 && !hasPipeInQueueForShift) && (pipeCollection.length != Math.floor(innerWidth / 80) / 3)) {
+    if ((frameCount % 80 == 0 && !hasPipeInQueueForShift) && 
+            (pipeCollection.length != maxNumberOfPipes)) {
         pipeCollection.push(new PipeSet());
-        print(`A new pipe was created! Current length is ${pipeCollection.length}`);
     }
 }
 
-/*
-    Moves the current pipe to the end of the pipe collection and
-    re-initializes with new dimensions
-*/
+
+/**
+ * Place the current pipe to the tail of the pipe set collection.
+ */
 function shiftPipes() {
-    // Just reuse the previously generated pipes so that we don't have to
-    // load resources for a new one every 80 frames
+    /*
+        Repurpose the current pipe so that resources won't have to be 
+        reloaded for a new pipe set every X number of frames.
+    */
+    currentPipe.reconstruct();
     pipeCollection.push(currentPipe);
-    pipeCollection[pipeCollection.length - 1].x_coordinate = innerWidth;
-    pipeCollection[pipeCollection.length - 1].calculateDimensions();
-    pipeCollection[pipeCollection.length - 1].cleared = false;
-    pipeCollection.shift();
+    pipeCollection.shift(); // remove the first pipe set in the pipe set collection
     hasPipeInQueueForShift = false;
     currentPipe = pipeCollection[0];
 }

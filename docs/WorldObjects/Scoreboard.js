@@ -1,5 +1,12 @@
+/**
+ * Represents the player's score in the game
+ * @class Scoreboard
+ */
 class Scoreboard {
-
+    /**
+     * Creates an instance of Scoreboard.
+     * @memberof Scoreboard
+     */
     constructor() {
         this.xCoordinate = innerWidth / 2;
         this.yCoordinate = innerHeight * 0.125;
@@ -9,6 +16,11 @@ class Scoreboard {
         this.sound = loadSound("res/sounds/sfx_point.wav");
     }
 
+    /**
+     * Renders the player's score onto the canvas.
+     * @param {Number} score The player's running score in the game.
+     * @memberof Scoreboard
+     */
     toCanvas(score) {
         let newScoreLength = String(score).length;
         if (newScoreLength > this.scoreLength) {
@@ -22,6 +34,10 @@ class Scoreboard {
         text(`${score}`, this.xCoordinate, this.yCoordinate);
     }
 
+    /**
+     * Play a sound.
+     * @memberof Scoreboard
+     */
     buzz() {
         this.sound.play();
     }
