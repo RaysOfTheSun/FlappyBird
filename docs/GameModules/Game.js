@@ -6,7 +6,7 @@ let ground;
 let scoreboard;
 let flappybirdFont;
 let currentPipe;
-let hasPipeReadyForDeletion;
+let hasPipeInQueueForShift;
 
 function preload() {
     flappybirdFont = loadFont("./res/Fonts/04B_19.TTF");
@@ -42,8 +42,8 @@ function draw() {
     }
 
     if (pipeCollection[0].x_coordinate <= 0) {
-        hasPipeReadyForDeletion = true;
-        shufflePipes();
+        hasPipeInQueueForShift = true;
+        shiftPipes();
     }
 
     if (pipeCollection[0].collide(bird)) {
@@ -59,8 +59,6 @@ function draw() {
     bird.toCanvas();
 
     ground.toCanvas();
-
-    print(pipeCollection.length);
 }
 
 function cleanCanvas() {
@@ -83,21 +81,27 @@ function touchStarted() {
 
 // Creates a new PipeSet object that will serve as an obstacle in the game
 function makePipes() {
-    if ((frameCount % 80 == 0 && !hasPipeReadyForDeletion) && (pipeCollection.length < Math.floor(innerWidth / 80))) {
+    print(pipeCollection.length);
+    if ((frameCount % 80 == 0 && !hasPipeInQueueForShift) && (pipeCollection.length != Math.floor(innerWidth / 80) / 3)) {
         pipeCollection.push(new PipeSet());
-        print("new!");
+        print(`A new pipe was created! Current length is ${pipeCollection.length}`);
     }
 }
 
-function shufflePipes() {
-    if (frameCount % 80 == 0) {
-        pipeCollection.push(currentPipe);
-        pipeCollection[pipeCollection.length - 1].calculateDimensions();
-        pipeCollection[pipeCollection.length - 1].cleared = false;
-    }
+/*
+    Moves the current pipe to the end of the pipe collection and
+    re-initializes with new dimensions
+*/
+function shiftPipes() {
+    // Just reuse the previously generated pipes so that we don't have to
+    // load resources for a new one every 80 frames
+    pipeCollection.push(currentPipe);
+    pipeCollection[pipeCollection.length - 1].x_coordinate = innerWidth;
+    pipeCollection[pipeCollection.length - 1].calculateDimensions();
+    pipeCollection[pipeCollection.length - 1].cleared = false;
     pipeCollection.shift();
+    hasPipeInQueueForShift = false;
     currentPipe = pipeCollection[0];
-    hasPipeReadyForDeletion = false;
 }
 
 function let_bird_fall() {
