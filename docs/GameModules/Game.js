@@ -5,6 +5,8 @@ let backdrop;
 let ground;
 let scoreboard;
 let flappybirdFont;
+let currentPipe;
+let hasPipeReadyForDeletion;
 
 function preload() {
     flappybirdFont = loadFont("./res/Fonts/04B_19.TTF");
@@ -14,9 +16,13 @@ function preload() {
 }
 
 function setup() {
+    
     createCanvas(innerWidth, innerHeight);
     scoreboard = new Scoreboard();
+    
     pipeCollection = [new PipeSet()];
+    currentPipe = pipeCollection[0];
+
     playerPoints = 0;
     
     frameRate(60);
@@ -36,7 +42,8 @@ function draw() {
     }
 
     if (pipeCollection[0].x_coordinate <= 0) {
-        pipeCollection.shift();
+        hasPipeReadyForDeletion = true;
+        shufflePipes();
     }
 
     if (pipeCollection[0].collide(bird)) {
@@ -52,6 +59,8 @@ function draw() {
     bird.toCanvas();
 
     ground.toCanvas();
+
+    print(pipeCollection.length);
 }
 
 function cleanCanvas() {
@@ -74,9 +83,21 @@ function touchStarted() {
 
 // Creates a new PipeSet object that will serve as an obstacle in the game
 function makePipes() {
-    if (frameCount % 80 == 0) {
+    if ((frameCount % 80 == 0 && !hasPipeReadyForDeletion) && (pipeCollection.length < Math.floor(innerWidth / 80))) {
         pipeCollection.push(new PipeSet());
+        print("new!");
     }
+}
+
+function shufflePipes() {
+    if (frameCount % 80 == 0) {
+        pipeCollection.push(currentPipe);
+        pipeCollection[pipeCollection.length - 1].calculateDimensions();
+        pipeCollection[pipeCollection.length - 1].cleared = false;
+    }
+    pipeCollection.shift();
+    currentPipe = pipeCollection[0];
+    hasPipeReadyForDeletion = false;
 }
 
 function let_bird_fall() {
