@@ -23,8 +23,10 @@ class GameOverScreen {
         this.board_xCoordinate = (innerWidth / 4) + 20;
         this.board_yCoordinate = (innerWidth / 2) + 120;
 
-        this.score_xCoordinate = (innerWidth / 2) + 180;
-        this.score_yCoordinate = (innerWidth / 2) + 240;
+        this.score_xCoordinate = ((innerWidth / 2) + 190);
+        this.score_yCoordinate = (innerWidth / 2) + 235;
+
+        this.scoreLength = 0;
     }
 
     /**
@@ -34,30 +36,34 @@ class GameOverScreen {
      */
     play(finalScore) {
         textSize(50);
+        let scoreStrLength = String(finalScore).length;
+        if (this.scoreLength < scoreStrLength) {
+            this.scoreLength = scoreStrLength;
+        }
         this.board.toCanvas(this.board_xCoordinate, this.board_yCoordinate);
         this.title.toCanvas(this.title_xCoordinate, this.title_yCoordinate);
-        text(String(finalScore), this.score_xCoordinate, this.score_yCoordinate);
+        fill(0);
+        text(String(finalScore), this.score_xCoordinate - this.calculateTextOffset(), 
+        this.score_yCoordinate + 5);
+        fill(255);
+        text(String(finalScore), this.score_xCoordinate - this.calculateTextOffset(), 
+                this.score_yCoordinate);
     }
 
-    calculateTextY() {
-        let yCoordinate = (innerHeight * 0.4876);
+    calculateTextOffset(finalScore) {
+        print(this.scoreLength);
+        let offset = 0;
 
-        if (innerHeight >= 1750 && innerHeight <= 1760) {
-            yCoordinate = (innerHeight * 0.3885); // base: 1757
+        if (this.scoreLength == 2) {
+            offset = 10;
         }
-        else if (innerHeight >= 1900 && innerHeight <= 2000) {
-            yCoordinate = (innerHeight * 0.3789); // base: 1979
+        else if (this.scoreLength == 3) {
+            offset = 40;
         }
-        else if (innerHeight >= 2100 && innerHeight <= 2240) {
-            yCoordinate = (innerHeight * 0.3781); // base: 2142
-        }
-        else if (innerHeight >= 1317 && innerHeight <= 1377) {
-            yCoordinate = (innerHeight * 0.4066); // base: 1377
-        }
-        else if (innerHeight >= 1580 && innerHeight <= 15600) {
-            yCoordinate = (innerHeight * 0.3984) // base: 1581;
+        else if (this.scoreLength == 4) {
+            offset = 60;
         }
 
-        return yCoordinate;
+        return offset;
     }
 }
