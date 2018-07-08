@@ -121,7 +121,7 @@ class GameOverScreen {
     /**
      * Retrieve the player's current high score.
      * @returns A number representing the player's high score if it is available.
-     * 0 (zero) is returned otherwise.
+     * A 0 (zero) is returned otherwise.
      * @memberof GameOverScreen
      */
     getHighScore() {
@@ -133,7 +133,7 @@ class GameOverScreen {
     }
 
     /**
-     * Reinitializes the variables that is used by the object to determine alignment
+     * Reinitializes the variables that are used by the object to determine the alignment
      * of score strings.
      * @memberof GameOverScreen
      */
