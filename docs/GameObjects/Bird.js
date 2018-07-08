@@ -29,6 +29,7 @@ class Bird {
         this.sprites = new Sprite("res/Images/bird_wing_down.png");
         this.flapSound = loadSound("res/sounds/sfx_wing_flap.wav");
         this.jumped = false;
+        this.isDead = false;
     }
 
     /**
@@ -99,7 +100,7 @@ class Bird {
      * @memberof Bird
      */
     jump() {
-        this.jumped = true;
+        this.jumped = isPlayerDead ? false : true;
     }
 
 

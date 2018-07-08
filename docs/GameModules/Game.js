@@ -13,8 +13,7 @@ let currentPipe; // the pipeSet object that is directly infront of the bird obje
 let hasPipeToShift;
 let maxNumberOfPipes;
 
-
-let isPlayerDead;
+let frameNumber = 0;
 let playerPoints; // The number of points the user has earned
 
 function preload() {
@@ -44,8 +43,8 @@ function setup() {
 
 function draw() { 
 
+    frameNumber += 1;
     cleanCanvas();
-
     makePipes();
     for(let i = 0; i < pipeCollection.length; i++) {
         pipeCollection[i].toCanvas();
@@ -57,7 +56,7 @@ function draw() {
         shiftPipes();
     }
 
-    if (!isPlayerDead) {
+    if (!bird.isDead) {
         play();
     }
     else {
@@ -71,7 +70,7 @@ function draw() {
  * Create a new pipe set that would serve as an obstacle in the game world.
  */
 function makePipes() {
-    if (((frameCount % 80 == 0) && !hasPipeToShift) && 
+    if (((frameNumber % 80 == 0) && !hasPipeToShift) && 
             (pipeCollection.length != maxNumberOfPipes)) {
         pipeCollection.push(new PipeSet());
     }
@@ -97,7 +96,7 @@ function shiftPipes() {
  */
 function play() {
     if (pipeCollection[0].collide(bird)) {
-        isPlayerDead = true; // This has no effect yet
+        bird.isDead = true;
     }
     else if (pipeCollection[0].isCleared(bird)) {
         playerPoints += 1;
@@ -131,16 +130,28 @@ function cleanCanvas() {
     backdrop.toCanvas()
 }
 
+function reset() {
+    if (bird.isDead) {
+        bird.isDead = false;
+        frameNumber = 0;
+        playerPoints = 0;
+        pipeCollection = [new PipeSet()];
+    }
+}
+
 function keyPressed() {
     bird.jump();
+    reset();
 }
 
 function mouseClicked() {
     bird.jump();
+    reset();
 }
 
 function touchStarted() {
     bird.jump();
+    reset();
     return false; /* prevent the browser's default multiple tap action from
                   occuring */
 }
