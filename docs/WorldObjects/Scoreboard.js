@@ -27,7 +27,8 @@ class Scoreboard {
             this.scoreLength = newScoreLength;
             this.xCoordinate -= 15;
         }
-
+        
+        textSize(100)
         fill(0);
         text(`${score}`, this.xCoordinate, this.yCoordinate + 5);
         fill(255);

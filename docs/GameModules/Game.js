@@ -5,11 +5,12 @@ let backdrop; // the game world's background
 let ground; // the game world's visual lower boundary
 let scoreboard; /* the number in the middle upper part of the screen
                 showing the player's score */
+let gameOverScreen;
 
 let bird; // Flappy Bird
 let pipeCollection; // The array where the obstacles in the game are stored
 let currentPipe; // the pipeSet object that is directly infront of the bird object
-let hasPipeInQueueForShift;
+let hasPipeToShift;
 let maxNumberOfPipes;
 
 
@@ -29,15 +30,16 @@ function setup() {
     
     maxNumberOfPipes = (Math.floor(innerWidth / 80) / 3);
     isPlayerDead = false;
+    playerPoints = 0;
 
     scoreboard = new Scoreboard();
     pipeCollection = [new PipeSet()];
     currentPipe = pipeCollection[0];
-
-    playerPoints = 0;
+    
+    gameOverScreen = new GameOverScreen();
     
     frameRate(60);
-    textFont(flappybirdFont, 100);
+    textFont(flappybirdFont);
 }
 
 function draw() { 
@@ -51,10 +53,49 @@ function draw() {
     }
 
     if (pipeCollection[0].x_coordinate <= 0) {
-        hasPipeInQueueForShift = true;
+        hasPipeToShift = true;
         shiftPipes();
     }
 
+    if (!isPlayerDead) {
+        play();
+    }
+    else {
+        gameOver(playerPoints);
+    }
+
+    ground.toCanvas();
+}
+
+/**
+ * Create a new pipe set that would serve as an obstacle in the game world.
+ */
+function makePipes() {
+    if (((frameCount % 80 == 0) && !hasPipeToShift) && 
+            (pipeCollection.length != maxNumberOfPipes)) {
+        pipeCollection.push(new PipeSet());
+    }
+}
+
+/**
+ * Place the current pipe to the tail of the pipe set collection.
+ */
+function shiftPipes() {
+    /*
+        Repurpose the current pipe so that resources won't have to be 
+        reloaded for a new pipe set every X number of frames.
+    */
+    currentPipe.reconstruct();
+    pipeCollection.push(currentPipe);
+    pipeCollection.shift(); // remove the first pipe set in the pipe set collection
+    hasPipeToShift = false;
+    currentPipe = pipeCollection[0];
+}
+
+/**
+ * Play the game
+ */
+function play() {
     if (pipeCollection[0].collide(bird)) {
         isPlayerDead = true; // This has no effect yet
     }
@@ -66,10 +107,21 @@ function draw() {
     scoreboard.toCanvas(playerPoints);
 
     bird.toCanvas();
-
-    ground.toCanvas();
 }
 
+/**
+ * Display the game over screen and its components
+ * @param {Number} finalScore The player's final score.
+ */
+function gameOver(finalScore) {
+    gameOverScreen.play(finalScore);
+}
+
+function let_bird_fall() {
+    while ((bird.y_coordinate != bird.lowerLimit) || (frameCount % 20 != 0)) {
+
+    }
+}
 
 /**
  * Remove all previously drawn elements in the canvas.
@@ -91,36 +143,4 @@ function touchStarted() {
     bird.jump();
     return false; /* prevent the browser's default multiple tap action from
                   occuring */
-}
-
-/**
- * Create a new pipe set that would serve as an obstacle in the game world.
- */
-function makePipes() {
-    if ((frameCount % 80 == 0 && !hasPipeInQueueForShift) && 
-            (pipeCollection.length != maxNumberOfPipes)) {
-        pipeCollection.push(new PipeSet());
-    }
-}
-
-
-/**
- * Place the current pipe to the tail of the pipe set collection.
- */
-function shiftPipes() {
-    /*
-        Repurpose the current pipe so that resources won't have to be 
-        reloaded for a new pipe set every X number of frames.
-    */
-    currentPipe.reconstruct();
-    pipeCollection.push(currentPipe);
-    pipeCollection.shift(); // remove the first pipe set in the pipe set collection
-    hasPipeInQueueForShift = false;
-    currentPipe = pipeCollection[0];
-}
-
-function let_bird_fall() {
-    while ((bird.y_coordinate != bird.lowerLimit) || (frameCount % 20 != 0)) {
-
-    }
 }
