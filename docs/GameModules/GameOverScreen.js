@@ -20,11 +20,11 @@ class GameOverScreen {
         this.title_xCoordinate = (innerWidth * 0.3);
         this.title_yCoordinate = (innerHeight * 0.2179);
 
-        this.board_xCoordinate = (width * 0.26);
-        this.board_yCoordinate = (height * 0.325);
+        this.board_xCoordinate = (innerWidth / 4) + 20;
+        this.board_yCoordinate = (innerWidth / 2) + 120;
 
-        this.score_xCoordinate = (innerWidth / 2) + (width * 0.190);
-        this.score_yCoordinate = this.calculateTextY();
+        this.score_xCoordinate = (innerWidth / 2) + 180;
+        this.score_yCoordinate = (innerWidth / 2) + 240;
     }
 
     /**
@@ -34,9 +34,9 @@ class GameOverScreen {
      */
     play(finalScore) {
         textSize(50);
-        this.title.toCanvas(this.title_xCoordinate, this.title_yCoordinate);
         this.board.toCanvas(this.board_xCoordinate, this.board_yCoordinate);
-        text(`${finalScore}`, this.score_xCoordinate, this.score_yCoordinate);
+        this.title.toCanvas(this.title_xCoordinate, this.title_yCoordinate);
+        text(String(finalScore), this.score_xCoordinate, this.score_yCoordinate);
     }
 
     calculateTextY() {
