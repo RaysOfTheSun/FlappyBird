@@ -21,10 +21,10 @@ class GameOverScreen {
         this.title_yCoordinate = (innerHeight * 0.2179);
 
         this.board_xCoordinate = (innerWidth / 4) + 20;
-        this.board_yCoordinate = (innerWidth / 2) + 120;
+        this.board_yCoordinate = (innerHeight / 4) + 120;
 
-        this.score_xCoordinate = ((innerWidth / 2) + 190);
-        this.score_yCoordinate = (innerWidth / 2) + 235;
+        this.score_xCoordinate = (innerWidth / 2) + 190;
+        this.score_yCoordinate = (innerHeight / 4) + 235;
 
         this.offset = 0;
         this.highScoreOffset = 0;
@@ -95,7 +95,7 @@ class GameOverScreen {
     }
 
     /**
-     * Initializes the variables used by the object to determine alignmnet of
+     * Initializes the variables used by the object to determine the alignmnet of
      * score strings.
      * @param {Number} finalScore The player's final score.
      * @memberof GameOverScreen
