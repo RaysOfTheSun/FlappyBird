@@ -135,6 +135,7 @@ function reset() {
         bird.isDead = false;
         frameNumber = 0;
         playerPoints = 0;
+        gameOverScreen.reset();
         pipeCollection = [new PipeSet()];
     }
 }
