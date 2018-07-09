@@ -17,7 +17,7 @@ class GameOverScreen {
         this.title = new Sprite("res/Images/gameOver.png");
         this.board = new Sprite("res/Images/game_over_board.png");
 
-        this.title_xCoordinate = (innerWidth * 0.3);
+        this.title_xCoordinate = (innerWidth / 4) + 60;
         this.title_yCoordinate = (innerHeight * 0.2179);
 
         this.board_xCoordinate = (innerWidth / 4) + 20;
@@ -114,7 +114,7 @@ class GameOverScreen {
      */
     recordScore(finalScore) {
         if (this.getHighScore() < finalScore) {
-            docCookies.setItem("score", finalScore);
+            docCookies.setItem("score", finalScore, this.maxAgeToGMT(150));
         }
     }
 
@@ -130,6 +130,11 @@ class GameOverScreen {
         }
 
         return 0;
+    }
+
+    maxAgeToGMT (nMaxAge) {
+        return nMaxAge === Infinity ? "Fri, 31 Dec 9999 23:59:59 GMT" : 
+            (new Date(nMaxAge * 1e3 + Date.now())).toUTCString();
     }
 
     /**
