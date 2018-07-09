@@ -26,7 +26,7 @@ class GameOverScreen {
         this.score_xCoordinate = (innerWidth / 2) + 190;
         this.score_yCoordinate = (innerHeight / 4) + 235;
 
-        this.medal_xCoordinate = (innerWidth / 4) + 74;
+        this.medal_xCoordinate = (innerWidth / 4) + 80;
         this.medal_yCoordinate = (innerHeight / 4) + 218;
         this.medalWidth = 90;
         this.medalHeight = 89;
