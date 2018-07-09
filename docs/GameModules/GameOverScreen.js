@@ -26,6 +26,14 @@ class GameOverScreen {
         this.score_xCoordinate = (innerWidth / 2) + 190;
         this.score_yCoordinate = (innerHeight / 4) + 235;
 
+        this.medal_xCoordinate = (innerWidth / 4) + 80;
+        this.medal_yCoordinate = (innerHeight / 4) + 218;
+        this.medalWidth = 90;
+        this.medalHeight = 89;
+
+        this.prompt_xCoordinate = (innerWidth / 4) - 70;
+        this.prompt_yCoordinate = (innerHeight / 4) + 500; 
+
         this.offset = 0;
         this.highScoreOffset = 0;
     }
@@ -38,10 +46,11 @@ class GameOverScreen {
     play(finalScore) {
         this.recordScore(finalScore);
 
-        textSize(50);
         this.board.toCanvas(this.board_xCoordinate, this.board_yCoordinate);
         this.title.toCanvas(this.title_xCoordinate, this.title_yCoordinate);
         this.scoreTextToCanvas(finalScore);
+        this.medalToCanvas(finalScore);
+        this.promptTextToCanvas();
     }
 
     /**
@@ -53,6 +62,8 @@ class GameOverScreen {
 
         this.calculateOffsets(finalScore);
         let highScore = this.getHighScore();
+
+        textSize(50);
 
         fill(0);
         text(String(finalScore), this.score_xCoordinate - this.offset, 
@@ -67,6 +78,37 @@ class GameOverScreen {
         fill(255);
         text(String(highScore), this.score_xCoordinate - this.highScoreOffset, 
                 this.score_yCoordinate + 90);
+    }
+
+    /**
+     * Draw the medal to be awarded to the player for earning a certain amount of points.
+     * @param {Number} finalScore The player's final score.
+     * @memberof GameOverScreen
+     */
+    medalToCanvas(finalScore) {
+        if (finalScore >= 20 && finalScore <= 39) {
+            this.bronzeMedal.toCanvas(this.medal_xCoordinate, this.medal_yCoordinate,
+                this.medalWidth, this.medalHeight);
+        }
+        else if (finalScore >= 40 && finalScore <= 69) {
+            this.goldMedal.toCanvas(this.medal_xCoordinate, this.medal_yCoordinate,
+                this.medalWidth, this.medalHeight);
+        }
+        else if (finalScore >= 70) {
+            this.platinumMedal.toCanvas(this.medal_xCoordinate, this.medal_yCoordinate,
+                this.medalWidth, this.medalHeight);
+        }
+    }
+
+    promptTextToCanvas() {
+        textSize(50);
+
+        if (frameCount % 60 <= 30) {
+            fill(255);
+            text("Tap anywhere to play again",this.prompt_xCoordinate, this.prompt_yCoordinate + 5);
+            fill("#F09F46");
+            text("Tap anywhere to play again", this.prompt_xCoordinate, this.prompt_yCoordinate);
+        }
     }
 
     /**
@@ -131,7 +173,13 @@ class GameOverScreen {
 
         return 0;
     }
-
+    
+    /**
+     * Create a GMT string from a given age.
+     * @param {Number} nMaxAge The desired maximum age.
+     * @returns A GMT date in string representation relative to the given age.
+     * @memberof GameOverScreen
+     */
     maxAgeToGMT (nMaxAge) {
         return nMaxAge === Infinity ? "Fri, 31 Dec 9999 23:59:59 GMT" : 
             (new Date(nMaxAge * 1e3 + Date.now())).toUTCString();

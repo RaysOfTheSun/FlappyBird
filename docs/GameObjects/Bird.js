@@ -26,7 +26,9 @@ class Bird {
         this.upperLimit = innerHeight / this.birdWidth;
         this.lowerLimit = (innerHeight - this.birdWidth) - this.ground_offset;
 
-        this.sprites = new Sprite("res/Images/bird_wing_down.png");
+        this.sprites = [new Sprite("res/Images/bird_wing_down.png"),
+            new Sprite("res/Images/bird_wing_up.png")];
+        this.sprite = [0];
         this.flapSound = loadSound("res/sounds/sfx_wing_flap.wav");
         this.jumped = false;
         this.isDead = false;
@@ -47,7 +49,7 @@ class Bird {
 
         this.updatePosition();
 
-        this.sprites.toCanvas(this.x_coordinate, this.y_coordinate);
+        this.sprite.toCanvas(this.x_coordinate, this.y_coordinate);
     }
 
     /**
@@ -82,6 +84,9 @@ class Bird {
      * @memberof Bird
      */
     updatePosition() {
+        this.sprite = frameCount % 60 <= 30 ? this.sprites[1] : 
+            this.sprites[0];
+
         if ((this.y_coordinate <= 1) && (!this.jumped)) {
             this.y_coordinate = this.upperLimit;
             this.velocity = 0;
