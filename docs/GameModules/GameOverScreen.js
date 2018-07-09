@@ -17,7 +17,7 @@ class GameOverScreen {
         this.title = new Sprite("res/Images/gameOver.png");
         this.board = new Sprite("res/Images/game_over_board.png");
 
-        this.title_xCoordinate = (innerWidth / 4) + 60;
+        this.title_xCoordinate = (innerWidth / 4) + 50;
         this.title_yCoordinate = (innerHeight * 0.2179);
 
         this.board_xCoordinate = (innerWidth / 4) + 20;
@@ -26,7 +26,7 @@ class GameOverScreen {
         this.score_xCoordinate = (innerWidth / 2) + 190;
         this.score_yCoordinate = (innerHeight / 4) + 235;
 
-        this.medal_xCoordinate = (innerWidth / 4) + 80;
+        this.medal_xCoordinate = (innerWidth / 4) + 74;
         this.medal_yCoordinate = (innerHeight / 4) + 218;
         this.medalWidth = 90;
         this.medalHeight = 89;
@@ -124,13 +124,13 @@ class GameOverScreen {
         let offset = 0;
 
         if (scoreStrLength == 2) {
-            offset = 10;
+            offset = 20;
         }
         else if (scoreStrLength == 3) {
             offset = 40;
         }
         else if (scoreStrLength == 4) {
-            offset = 60;
+            offset = 70;
         }
 
         return offset;
