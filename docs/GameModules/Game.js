@@ -6,6 +6,7 @@ let ground; // the game world's visual lower boundary
 let scoreboard; /* the number in the middle upper part of the screen
                 showing the player's score */
 let gameOverScreen;
+let mainMenuScreen;
 
 let bird; // Flappy Bird
 let pipeCollection; // The array where the obstacles in the game are stored
@@ -15,6 +16,8 @@ let maxNumberOfPipes;
 
 let frameNumber = 0;
 let playerPoints; // The number of points the user has earned
+let canScroll = true;
+let justLaunched = true;
 
 function preload() {
     flappybirdFont = loadFont("./res/Fonts/04B_19.TTF");
@@ -26,7 +29,7 @@ function preload() {
 function setup() {
     
     createCanvas(innerWidth, innerHeight);
-    
+        
     maxNumberOfPipes = (Math.floor(innerWidth / 80) / 3);
     isPlayerDead = false;
     playerPoints = 0;
@@ -35,6 +38,7 @@ function setup() {
     pipeCollection = [new PipeSet()];
     currentPipe = pipeCollection[0];
     
+    mainMenuScreen = new MainMenu();
     gameOverScreen = new GameOverScreen();
     
     frameRate(60);
@@ -48,7 +52,9 @@ function draw() {
     makePipes();
     for(let i = 0; i < pipeCollection.length; i++) {
         pipeCollection[i].toCanvas();
-        pipeCollection[i].scroll(3);
+        if (canScroll) {
+            pipeCollection[i].scroll(3);
+        }
     }
 
     if (pipeCollection[0].x_coordinate <= 0) {
@@ -56,11 +62,15 @@ function draw() {
         shiftPipes();
     }
 
-    if (!bird.isDead) {
+    if (!bird.isDead && !justLaunched) {
         play();
+        canScroll = true;
     }
-    else {
+    else if (bird.isDead) {
         gameOver(playerPoints);
+    }
+    else if (justLaunched) {
+        mainMenuScreen.toCanvas();
     }
 
     ground.toCanvas();
@@ -92,11 +102,13 @@ function shiftPipes() {
 }
 
 /**
- * Play the game
+ * Play the game.
  */
 function play() {
     if (pipeCollection[0].collide(bird)) {
         bird.isDead = true;
+        bird.deathSound.play();
+        bird.deathPlungeSound.play();
     }
     else if (pipeCollection[0].isCleared(bird)) {
         playerPoints += 1;
@@ -113,14 +125,15 @@ function play() {
  * @param {Number} finalScore The player's final score.
  */
 function gameOver(finalScore) {
-    gameOverScreen.play(finalScore);
-}
-
-function let_bird_fall() {
-    while ((bird.y_coordinate != bird.lowerLimit) || (frameCount % 20 != 0)) {
-
+    if ((bird.y_coordinate == bird.lowerLimit) && (bird.isDead)) {
+        canScroll = true;
+        gameOverScreen.play(finalScore);
     }
-}
+    else {
+            bird.plunge();
+            canScroll = false;
+        }
+    }
 
 /**
  * Remove all previously drawn elements in the canvas.
@@ -130,13 +143,19 @@ function cleanCanvas() {
     backdrop.toCanvas()
 }
 
+/**
+ * Reinitialize the varibles used in the game loop.
+ */
 function reset() {
-    if (bird.isDead) {
+    // Make sure it only executes when the bird is dead
+    if (bird.isDead || justLaunched) {
         bird.isDead = false;
+        justLaunched = false;
         frameNumber = 0;
         playerPoints = 0;
         gameOverScreen.reset();
         pipeCollection = [new PipeSet()];
+        bird.reset();
     }
 }
 

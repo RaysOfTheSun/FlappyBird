@@ -28,8 +28,11 @@ class Bird {
 
         this.sprites = [new Sprite("res/Images/bird_wing_down.png"),
             new Sprite("res/Images/bird_wing_up.png")];
-        this.sprite = [0];
         this.flapSound = loadSound("res/sounds/sfx_wing_flap.wav");
+        this.deathSound = loadSound("res/sounds/sfx_hit.wav");
+        this.deathPlungeSound = loadSound("res/sounds/sfx_die.wav");
+        this.sprite = [0];
+
         this.jumped = false;
         this.isDead = false;
     }
@@ -108,6 +111,14 @@ class Bird {
         this.jumped = isPlayerDead ? false : true;
     }
 
+    /**
+     * Let the bird fall to the ground.
+     * @memberof Bird
+     */
+    plunge() {
+        this.sprite = this.sprites[0]; 
+        bird.toCanvas();
+    }
 
     /**
      * Reinitializes the bird's x and y coordinates.
