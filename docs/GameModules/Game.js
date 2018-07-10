@@ -106,6 +106,7 @@ function shiftPipes() {
  */
 function play() {
     if (pipeCollection[0].collide(bird)) {
+        gameOverScreen.recordScore(playerPoints);
         bird.isDead = true;
         bird.deathSound.play();
         bird.deathPlungeSound.play();

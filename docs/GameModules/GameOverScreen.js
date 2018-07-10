@@ -44,8 +44,6 @@ class GameOverScreen {
      * @memberof GameOverScreen
      */
     play(finalScore) {
-        this.recordScore(finalScore);
-
         this.board.toCanvas(this.board_xCoordinate, this.board_yCoordinate);
         this.title.toCanvas(this.title_xCoordinate, this.title_yCoordinate);
         this.scoreTextToCanvas(finalScore);
