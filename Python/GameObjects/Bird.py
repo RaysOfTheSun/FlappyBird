@@ -1,7 +1,7 @@
 import pygame
 from pathlib import PurePath
-from Python.GameModules.ColorPalette import ColorPalette
-from Python.GameObjects.Sprite import Sprite
+from GameModules.ColorPalette import ColorPalette
+from GameObjects.Sprite import Sprite
 
 
 class Bird:
@@ -81,7 +81,7 @@ class Bird:
         bird_dimensions = (self.__bird_width, self.__bird_width)
 
         # Draw the bird
-        self.__sprite.to_canvas(canvas=canvas, location=bird_location, dimensions=bird_dimensions)
+        self.__sprite.to_canvas(canvas=canvas, location=bird_location)
 
     def __fall(self):
         """

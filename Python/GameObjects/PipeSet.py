@@ -1,7 +1,7 @@
 import pygame, random
 from pathlib import PurePath
-from Python.GameModules.ColorPalette import ColorPalette
-from Python.GameObjects.Sprite import Sprite
+from GameModules.ColorPalette import ColorPalette
+from GameObjects.Sprite import Sprite
 
 
 class PipeSet:
@@ -15,7 +15,7 @@ class PipeSet:
         self.canvas_height, self.canvas_width = pygame.display.get_surface().get_size()
         self.color_palette = ColorPalette()
 
-        self.__x_coordinate = self.canvas_height
+        self.__x_coordinate = self.canvas_width
         self.__pipe_width = 60
         self.__passable_space_height = self.__pipe_width
         self.offset = self.__pipe_width // 2  # Divide the pipe's width then floor (//) the result
@@ -26,6 +26,7 @@ class PipeSet:
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
+        self.cleared = False
 
         self.calculate_dimensions()
 
@@ -120,3 +121,7 @@ class PipeSet:
             return True
         else:
             return False
+
+    def reconstruct(self):
+        self.__x_coordinate = self.canvas_width
+        self.calculate_dimensions()

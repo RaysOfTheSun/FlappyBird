@@ -1,5 +1,5 @@
 from pathlib import PurePath
-from Python.GameObjects.Sprite import Sprite
+from GameObjects.Sprite import Sprite
 
 
 class Ground:

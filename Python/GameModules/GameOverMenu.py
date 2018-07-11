@@ -1,7 +1,7 @@
 import pygame
 from pathlib import PurePath
-from Python.GameObjects.Sprite import Sprite
-from Python.GameModules.ColorPalette import ColorPalette
+from GameObjects.Sprite import Sprite
+from GameModules.ColorPalette import ColorPalette
 
 
 class GameOverMenu:
