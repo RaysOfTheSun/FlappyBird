@@ -18,8 +18,8 @@ class Bird {
         this.y_coordinate = y_coordinate;
 
         this.birdWidth = 55; // Determines the height and width of the bird
-        this.pull = -14; // application will result into negative velocity
-        this.gravity = 1; // the force the pulls the bird downward
+        this.pull = -12; // application will result into negative velocity
+        this.gravity = 0.6; // the force the pulls the bird downward
         this.velocity = -2; // dictates the speed and direction of the bird
 
         // The bird should not go over the upper and lower bounds of the canvas
@@ -62,7 +62,7 @@ class Bird {
     fall() {
         if (this.y_coordinate != this.lowerLimit) {
             this.velocity += this.gravity;
-            this.pull = -14;
+            this.pull = -10;
         }
     }
 
