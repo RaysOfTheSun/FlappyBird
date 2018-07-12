@@ -95,6 +95,7 @@ class Game:
             if self.pipes[0].collide(bird=self.bird):
                 self.bird.hit_sound.play()
                 self.player_dead = True
+                self.bird.is_dead = True
             elif self.pipes[0].is_cleared(bird=self.bird):
                 self.player_points += 1
                 self.scoreboard.buzz()

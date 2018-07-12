@@ -24,8 +24,5 @@ class Sprite(pygame.sprite.Sprite):
         if dimensions is not None:
             self.__image = pygame.transform.scale(self.__image, dimensions).convert_alpha()
 
-        rect = self.__image.get_rect()
-        rect.left, rect.top = location
-
         # Draw the image onto the specified canvas
-        canvas.blit(self.__image, rect)
+        canvas.blit(self.__image, location)

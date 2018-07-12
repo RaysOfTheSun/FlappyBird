@@ -26,9 +26,14 @@ class PipeSet:
 
         self.top_pipe_height = 0
         self.bottom_pipe_height = 0
-        self.cleared = False
 
-        self.calculate_dimensions()
+        # Pipe parameters
+        self.pipe_head_dimensions = (self.__pipe_width, self.offset)
+        self.bottom_pipe_body_dimensions = None
+        self.top_pipe_body_dimensions = None
+        self.bottom_pipe_y_coordinate = None
+
+        self.construct()
 
     @property
     def pipe_width(self):
@@ -43,48 +48,41 @@ class PipeSet:
         Draws the bird onto the specified canvas or surface \n
         :param canvas: The surface wherein the pipe set is to be drawn on
         """
-        # Maybe the commented code below will be useful :P
-        # top pipe
-        # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, 0),
-        #                 (self.x_coordinate, self.top_pipe_height), self.pipe_width)
-        # bottom pipe
-        # pygame.draw.line(canvas, self.color_palette.white, (self.x_coordinate, self.bottom_pipe_height),
-        #              (self.x_coordinate, self.canvas_height*2), self.pipe_width)
 
-        # The pipes have the same dimensions for the head sprite
-        pipe_head_dimensions = (self.__pipe_width, self.offset)
+        pipe_x_coordinate = self.__x_coordinate - self.offset
 
         # Parameters for the top pipe
-        top_pipe_body_location = ((self.__x_coordinate - self.offset), -self.offset)
-        top_pipe_head_location = ((self.__x_coordinate - self.offset), (self.top_pipe_height - self.offset))
-        top_pipe_body_dimensions = (self.__pipe_width, self.top_pipe_height)
+        top_pipe_body_location = (pipe_x_coordinate, -self.offset)
+        top_pipe_head_location = (pipe_x_coordinate, (self.top_pipe_height - self.offset))
 
         # Parameters for the bottom pipe
-        bottom_pipe_body_location = ((self.__x_coordinate - self.offset), self.bottom_pipe_height - (self.offset -
-                                                                                                     self.offset * 2))
-        bottom_pipe_head_location = ((self.__x_coordinate - self.offset), (self.bottom_pipe_height - (self.offset -
-                                                                           self.offset * 2)))
-        bottom_pipe_body_dimensions = (self.__pipe_width, self.bottom_pipe_height * 4)
+        bottom_pipe_body_location = (pipe_x_coordinate, self.bottom_pipe_y_coordinate)
+        bottom_pipe_head_location = (pipe_x_coordinate, self.bottom_pipe_y_coordinate)
 
         # Draw the top pipe
         self.__pipe_body.to_canvas(canvas=canvas, location=top_pipe_body_location,
-                                   dimensions=top_pipe_body_dimensions)
+                                   dimensions=self.top_pipe_body_dimensions)
         self.__pipe_head.to_canvas(canvas=canvas, location=top_pipe_head_location,
-                                   dimensions=pipe_head_dimensions)
+                                   dimensions=self.pipe_head_dimensions)
 
         # Draw the bottom pipe
         self.__pipe_body.to_canvas(canvas=canvas, location=bottom_pipe_body_location,
-                                   dimensions=bottom_pipe_body_dimensions)
+                                   dimensions=self.bottom_pipe_body_dimensions)
         self.__pipe_head.to_canvas(canvas=canvas, location=bottom_pipe_head_location,
-                                   dimensions=pipe_head_dimensions)
+                                   dimensions=self.pipe_head_dimensions)
 
-    def calculate_dimensions(self):
+    def construct(self):
         """
         Calculates the height and gap between the two pipes in the pipe set
         """
         max_height = abs((self.canvas_width // 2) - self.__passable_space_height * 4)
         self.bottom_pipe_height = random.choice(range(max_height, self.canvas_height))
         self.top_pipe_height = random.choice(range(self.__passable_space_height, max_height))
+
+        self.bottom_pipe_body_dimensions = (self.__pipe_width, self.bottom_pipe_height * 4)
+        self.top_pipe_body_dimensions = (self.__pipe_width, self.top_pipe_height)
+
+        self.bottom_pipe_y_coordinate = self.bottom_pipe_height + self.offset
 
     def scroll(self, scroll_speed):
         """
@@ -114,14 +112,14 @@ class PipeSet:
         """
         mid_point_x = (self.__x_coordinate + bird.x_coordinate) // 2
         mid_point_y = (self.top_pipe_height + self.bottom_pipe_height) // 2
+        is_in_between_pipes = ((bird.y_coordinate >= mid_point_y) or (bird.y_coordinate <= mid_point_y))
 
         # if the bird passes through the are in-between the two pipes, it has cleared the obstacle
-        if (bird.x_coordinate == mid_point_x and bird.y_coordinate >= mid_point_y)\
-                or (bird.x_coordinate == mid_point_x and bird.y_coordinate <= mid_point_y):
+        if bird.x_coordinate == mid_point_x and is_in_between_pipes:
             return True
-        else:
-            return False
+
+        return False
 
     def reconstruct(self):
         self.__x_coordinate = self.canvas_width
-        self.calculate_dimensions()
+        self.construct()

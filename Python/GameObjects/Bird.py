@@ -20,7 +20,7 @@ class Bird:
         # We need the height and width of the canvas for error handling purposes
         self.__canvas_width, self.canvas_height = pygame.display.get_surface().get_size()
 
-        self.__bird_width = 40
+        self.__bird_width = 30
 
         # These limits will ensure that the entirety of the bird is always visible
         self.__upper_limit = self.canvas_height // self.__bird_width
@@ -39,10 +39,12 @@ class Bird:
         self.__colorPalette = ColorPalette()
 
         self.__jumped = False
+        self.is_dead = False
 
         self.__pull = -14  # application will result into negative velocity
         self.__gravity = 1  # the force the pulls the bird downward
         self.__velocity = -5  # dictates the speed and direction of the bird
+        self.frame_counter = 0  # needed for the flapping animation
 
     @property
     def y_coordinate(self):
@@ -78,7 +80,6 @@ class Bird:
 
         # Parameters for the bird's sprite
         bird_location = (self.x_coordinate, self.y_coordinate)
-        bird_dimensions = (self.__bird_width, self.__bird_width)
 
         # Draw the bird
         self.__sprite.to_canvas(canvas=canvas, location=bird_location)
@@ -97,7 +98,6 @@ class Bird:
         Pushes the bird upward
         :return:
         """
-        self.__sprite = self.__sprites[1]
         self.__flap_sound.play()
         if self.__y_coordinate > self.__upper_limit:
             self.__pull += 2
@@ -110,6 +110,7 @@ class Bird:
         Updates the position of the bird and also restricts it to within the visible area of the canvas
         :return:
         """
+        self.frame_counter += 1
 
         # enforce the limits so the bird will always be visible.
         # velocity is set to zero so the bird won't get 'stuck' when it hits the upper or lower boundaries of
@@ -123,6 +124,11 @@ class Bird:
         else:
             # applies a push or pull force to the bird
             self.__y_coordinate += self.__velocity
+
+        if (self.frame_counter % 60 <= 30) and (not self.is_dead):
+            self.__sprite = self.__sprites[1]
+        else:
+            self.__sprite = self.__sprites[0]
 
     def jump(self):
         """
